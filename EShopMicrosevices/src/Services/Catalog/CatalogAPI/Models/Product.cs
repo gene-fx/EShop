@@ -8,7 +8,7 @@
 
         public List<string> Category { get; set; } = new();
 
-        public string Description { get; set; }
+        public string Description { get; set; } = default!;
 
         public string ImageFile { get; set; } = default!;
 
