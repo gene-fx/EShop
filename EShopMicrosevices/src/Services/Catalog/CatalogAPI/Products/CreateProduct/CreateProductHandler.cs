@@ -1,13 +1,12 @@
-﻿using CatalogAPI.Models;
-
-namespace CatalogAPI.Products.CreateProduct
+﻿namespace CatalogAPI.Products.CreateProduct
 {
     public record CreateProductCommand(string Name, List<string> Category, string Description, string ImageFile, decimal Price)
         : ICommand<CreateProductResult>;
 
     public record CreateProductResult(Guid Id);
 
-    public class CreateProductHandler : ICommandHandler<CreateProductCommand, CreateProductResult>
+    public class CreateProductHandler(IDocumentSession _session) 
+        : ICommandHandler<CreateProductCommand, CreateProductResult>
     {
         public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
@@ -20,7 +19,10 @@ namespace CatalogAPI.Products.CreateProduct
                 Price = command.Price
             };
 
-            return new CreateProductResult(Guid.NewGuid());
+            _session.Store(product);
+            await _session.SaveChangesAsync();
+
+            return new CreateProductResult(product.Id);
         }
     }
 }
