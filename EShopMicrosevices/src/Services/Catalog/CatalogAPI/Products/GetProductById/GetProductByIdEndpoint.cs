@@ -1,7 +1,4 @@
-﻿
-using CatalogAPI.Products.GetProduct;
-
-namespace CatalogAPI.Products.GetProductById
+﻿namespace CatalogAPI.Products.GetProductById
 {
     public class GetProductByIdEndpoint : ICarterModule
     {

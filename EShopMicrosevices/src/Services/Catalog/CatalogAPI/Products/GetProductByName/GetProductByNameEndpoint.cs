@@ -1,7 +1,4 @@
-﻿
-using static CatalogAPI.Products.GetProductById.GetProductByIdEndpoint;
-
-namespace CatalogAPI.Products.GetProductByName
+﻿namespace CatalogAPI.Products.GetProductByName
 {
     //public record GetProductByNameRequest();
 
