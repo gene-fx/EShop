@@ -14,9 +14,7 @@
             var result = await session.Query<Product>()
                 .Where(_ => _.Name.ToLower() == query.Name.ToString().ToLower()).ToListAsync();
 
-            GetProductByNameResult response = new GetProductByNameResult(result);
-
-            return response;
+            return new GetProductByNameResult(result);
         }
     }
 }

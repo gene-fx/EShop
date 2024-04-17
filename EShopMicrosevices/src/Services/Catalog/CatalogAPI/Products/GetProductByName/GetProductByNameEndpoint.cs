@@ -1,4 +1,6 @@
 ﻿
+using static CatalogAPI.Products.GetProductById.GetProductByIdEndpoint;
+
 namespace CatalogAPI.Products.GetProductByName
 {
     //public record GetProductByNameRequest();
@@ -21,7 +23,12 @@ namespace CatalogAPI.Products.GetProductByName
                 }
 
                 return Results.Ok(response);
-            });
+            })
+            .WithName("GetProductByName")
+            .Produces<GetProductByNameResponse>(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .WithSummary("Get Product By Name")
+            .WithDescription("Get Product By Name");
         }
     }
 }
