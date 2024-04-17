@@ -1,4 +1,6 @@
 ﻿
+using CatalogAPI.Products.CreateProduct;
+
 namespace CatalogAPI.Products.UpdateProduct
 {
     public record UpdateProductRequest(Guid Id, string Name, List<string> Category, string Description, string ImageFile, decimal Price);
@@ -16,7 +18,12 @@ namespace CatalogAPI.Products.UpdateProduct
                 var result = await sender.Send(command);
 
                 return Results.Ok(result.Adapt<UpdateProductResponse>());
-            });
+            })
+            .WithName("UpdateProduct")
+            .Produces<UpdateProductResponse>()
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .WithSummary("Update Product")
+            .WithDescription("Update Product");
         }
     }
 }

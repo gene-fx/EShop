@@ -27,7 +27,7 @@ namespace CatalogAPI.Products.UpdateProduct
             product.Price = command.Price;
 
             session.Update(product);
-            await session.SaveChangesAsync();
+            await session.SaveChangesAsync(cancellationToken);
 
             return new UpdateProcuctResult(true);
         }
