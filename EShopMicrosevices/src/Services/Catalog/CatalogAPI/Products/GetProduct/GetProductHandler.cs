@@ -1,6 +1,4 @@
-﻿using Marten.Linq.QueryHandlers;
-
-namespace CatalogAPI.Products.GetProduct
+﻿namespace CatalogAPI.Products.GetProduct
 {
     public record GetProductsQuery() : IQuery<GetProductResult>;
 
