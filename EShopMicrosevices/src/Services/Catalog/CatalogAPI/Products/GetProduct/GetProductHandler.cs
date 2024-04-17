@@ -4,7 +4,7 @@
 
     public record GetProductResult(IEnumerable<Product> Products);
 
-    public class GetProductQueryHandler
+    internal class GetProductQueryHandler
         (IDocumentSession session, ILogger<GetProductQueryHandler> logger)
         : IQueryHandler<GetProductsQuery, GetProductResult>
     {

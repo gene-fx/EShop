@@ -5,7 +5,7 @@
 
     public record CreateProductResult(Guid Id);
 
-    public class CreateProductHandler(IDocumentSession _session) 
+    internal class CreateProductHandler(IDocumentSession _session) 
         : ICommandHandler<CreateProductCommand, CreateProductResult>
     {
         public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
