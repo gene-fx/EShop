@@ -5,6 +5,14 @@
 
     public record CreateProductResult(Guid Id);
 
+    public class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
+    {
+        public CreateProductCommandValidator()
+        {
+            RuleFor(model => model.Name).NotEmpty().WithMessage("Name is required");
+        }
+    }
+
     internal class CreateProductHandler(IDocumentSession _session) 
         : ICommandHandler<CreateProductCommand, CreateProductResult>
     {
