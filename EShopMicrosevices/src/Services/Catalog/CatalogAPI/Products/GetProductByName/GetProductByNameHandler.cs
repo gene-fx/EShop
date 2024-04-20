@@ -1,8 +1,18 @@
-﻿namespace CatalogAPI.Products.GetProductByName
+﻿using CatalogAPI.Products.GetProductById;
+
+namespace CatalogAPI.Products.GetProductByName
 {
     public record GetProductByNameQuery(string Name) : IQuery<GetProductByNameResult>;
 
     public record GetProductByNameResult(IEnumerable<Product> Products);
+
+    public class GetProductByNameQueryValidator : AbstractValidator<GetProductByNameQuery>
+    {
+        public GetProductByNameQueryValidator()
+        {
+            RuleFor(model => model.Name).NotEmpty().WithMessage("Name is required");
+        }
+    }
 
     internal class GetProductByNameQueryHandler(IDocumentSession session, ILogger<GetProductByNameQueryHandler> logger)
         : IQueryHandler<GetProductByNameQuery, GetProductByNameResult>

@@ -10,6 +10,10 @@
         public CreateProductCommandValidator()
         {
             RuleFor(model => model.Name).NotEmpty().WithMessage("Name is required");
+            RuleFor(model => model.Category).NotEmpty().WithMessage("Category is required");
+            RuleFor(model => model.Description).NotEmpty().WithMessage("Description is required");
+            RuleFor(model => model.ImageFile).NotEmpty().WithMessage("ImageFile is required");
+            RuleFor(model => model.Price).NotEmpty().WithMessage("Price is required");
         }
     }
 

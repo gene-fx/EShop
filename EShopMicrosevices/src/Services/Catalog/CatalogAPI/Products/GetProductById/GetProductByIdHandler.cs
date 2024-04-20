@@ -1,8 +1,18 @@
-﻿namespace CatalogAPI.Products.GetProductById
+﻿using CatalogAPI.Products.GetProductByCategory;
+
+namespace CatalogAPI.Products.GetProductById
 {
     public record GetProductByIdQuery(Guid Id) : IQuery<GetProductByIdResult>;
 
     public record GetProductByIdResult(Product Product);
+
+    public class GetProductByIdQueryValidator : AbstractValidator<GetProductByIdQuery>
+    {
+        public GetProductByIdQueryValidator()
+        {
+            RuleFor(model => model.Id).NotEmpty().WithMessage("Id is required");
+        }
+    }
 
     internal class GetProductByIdQueryHandler(IDocumentSession session, ILogger<GetProductByIdQueryHandler> logger)
         : IQueryHandler<GetProductByIdQuery, GetProductByIdResult>

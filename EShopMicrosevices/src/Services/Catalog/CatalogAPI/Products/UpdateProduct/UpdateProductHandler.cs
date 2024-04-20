@@ -1,10 +1,25 @@
 ﻿
+using CatalogAPI.Products.GetProductByName;
+
 namespace CatalogAPI.Products.UpdateProduct
 {
     public record UpdateProductCommand(Guid Id, string Name, List<string> Category, string Description, string ImageFile, decimal Price)
         : ICommand<UpdateProcuctResult>;
 
     public record UpdateProcuctResult(bool IsSuccess);
+
+    public class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
+    {
+        public UpdateProductCommandValidator()
+        {
+            RuleFor(model => model.Id).NotEmpty().WithMessage("Id is required");
+            RuleFor(model => model.Name).NotEmpty().WithMessage("Name is required");
+            RuleFor(model => model.Category).NotEmpty().WithMessage("Category is required");
+            RuleFor(model => model.Description).NotEmpty().WithMessage("Description is required");
+            RuleFor(model => model.ImageFile).NotEmpty().WithMessage("ImageFile is required");
+            RuleFor(model => model.Price).NotEmpty().WithMessage("Price is required");
+        }
+    }
 
     internal class UpdateProductCommandHandler(IDocumentSession session, ILogger<UpdateProductCommandHandler> logger)
         : ICommandHandler<UpdateProductCommand, UpdateProcuctResult>

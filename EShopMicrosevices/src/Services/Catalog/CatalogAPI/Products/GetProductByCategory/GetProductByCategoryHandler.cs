@@ -7,6 +7,14 @@ namespace CatalogAPI.Products.GetProductByCategory
 
     public record GetProductByCategoryResult(IEnumerable<Product> Products);
 
+    public class GetProductByCategoryQueryValidator : AbstractValidator<GetProductByCategoryQuery>
+    {
+        public GetProductByCategoryQueryValidator()
+        {
+            RuleFor(model => model.Category).NotEmpty().WithMessage("Category is required");
+        }
+    }
+
     internal class GetProductByCategoryQueryHandler(IDocumentSession session, ILogger<GetProductByCategoryQueryHandler> logger)
         : IQueryHandler<GetProductByCategoryQuery, GetProductByCategoryResult>
     {
