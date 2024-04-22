@@ -18,11 +18,6 @@ namespace CatalogAPI.Products.GetProductByCategory
 
                 GetProductByCategoryResponse response = result.Adapt<GetProductByCategoryResponse>();
 
-                if(response is null || response.Products.IsEmpty())
-                {
-                    throw new ProductNotFoundException();
-                }
-
                 return Results.Ok(response);
             })
             .WithName("GetProductByCategory")

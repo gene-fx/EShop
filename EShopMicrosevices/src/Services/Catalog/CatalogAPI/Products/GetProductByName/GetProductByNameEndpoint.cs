@@ -14,11 +14,6 @@
 
                 GetProductByNameResponse response = result.Adapt<GetProductByNameResponse>();
 
-                if (response is null || response.Products.IsEmpty())
-                {
-                    throw new ProductNotFoundException();
-                }
-
                 return Results.Ok(response);
             })
             .WithName("GetProductByName")
