@@ -11,5 +11,11 @@
         {
             
         }
+
+        public NotFoundException(List<object> keyList, object name) : base($"Entity \"{name}\" that is in the sequent list was not found\n"
+                                                                                           +$"List:\n {keyList}")
+        {
+            
+        }
     }
 }
