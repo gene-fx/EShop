@@ -27,7 +27,7 @@ namespace BuildingBlocks.Behaviors
             if (timeTanken.Seconds > 3)
             {
                 logger.LogWarning("[PERFORMANCE]\r\n"
-                                + $"The request {typeof(TRequest).Name} took {timeTanken.Seconds}\r\n"
+                                + $"The request {typeof(TRequest).Name} took {timeTanken.Seconds} seconds.\r\n"
                                 + "[PERFORMANCE]");
             }
 
