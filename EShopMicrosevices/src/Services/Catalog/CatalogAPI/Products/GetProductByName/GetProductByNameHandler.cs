@@ -14,15 +14,18 @@ namespace CatalogAPI.Products.GetProductByName
         }
     }
 
-    internal class GetProductByNameQueryHandler(IDocumentSession session, ILogger<GetProductByNameQueryHandler> logger)
+    internal class GetProductByNameQueryHandler(IDocumentSession session)
         : IQueryHandler<GetProductByNameQuery, GetProductByNameResult>
     {
         public async Task<GetProductByNameResult> Handle(GetProductByNameQuery query, CancellationToken cancellationToken)
         {
-            logger.LogInformation($"GetProductByNameQueryHandler.Handle called with {query}");
-
             var result = await session.Query<Product>()
                 .Where(_ => _.Name.ToLower() == query.Name.ToString().ToLower()).ToListAsync();
+
+            if(result.Count <= 0) 
+            {
+                throw new ProductNotFoundException($"No product was found with the name {query.Name}");
+            }
 
             return new GetProductByNameResult(result);
         }

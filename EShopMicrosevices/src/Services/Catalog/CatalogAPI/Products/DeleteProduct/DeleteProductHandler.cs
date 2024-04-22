@@ -14,13 +14,11 @@ namespace CatalogAPI.Products.DeleteProduct
         }
     }
 
-    internal class DeleteProductCommandHandler(IDocumentSession session, ILogger<DeleteProductCommandHandler> logger)
+    internal class DeleteProductCommandHandler(IDocumentSession session)
         : ICommandHandler<DeleteProductRequest, DeleteProductResponse>
     {
         public async Task<DeleteProductResponse> Handle(DeleteProductRequest command, CancellationToken cancellationToken)
         {
-            logger.LogInformation($"DeleteProductCommandHandler.Handle called with {command}");
-
             var product = await session.LoadAsync<Product>(command.Id, cancellationToken);
 
             if (product is null) 
