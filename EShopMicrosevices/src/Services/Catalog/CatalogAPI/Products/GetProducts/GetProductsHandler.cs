@@ -1,4 +1,4 @@
-﻿namespace CatalogAPI.Products.GetProduct
+﻿namespace CatalogAPI.Products.GetProducts
 {
     public record GetProductsQuery(int? PageNumber = 1, int? PageSize = 10) : IQuery<GetProductResult>;
 

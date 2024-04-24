@@ -1,6 +1,4 @@
-﻿using CatalogAPI.Products.GetProductById;
-
-namespace CatalogAPI.Products.GetProductByName
+﻿namespace CatalogAPI.Products.GetProductsByName
 {
     public record GetProductByNameQuery
         (string? Name, int? PageNumber = 1, int? PageSize = 10, bool? AsIdList = false) 

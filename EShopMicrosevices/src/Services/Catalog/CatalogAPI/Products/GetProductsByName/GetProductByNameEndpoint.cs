@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace CatalogAPI.Products.GetProductByName
+﻿namespace CatalogAPI.Products.GetProductsByName
 {
     public record GetProductByNameRequest(string? Name, int? PageNumber = 1, int? PageSize = 10, bool? AsIdList = false);
 

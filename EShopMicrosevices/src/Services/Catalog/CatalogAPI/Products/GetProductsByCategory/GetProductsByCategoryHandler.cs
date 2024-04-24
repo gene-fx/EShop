@@ -1,7 +1,4 @@
-﻿using Marten.Linq.QueryHandlers;
-using System.Linq;
-
-namespace CatalogAPI.Products.GetProductByCategory
+﻿namespace CatalogAPI.Products.GetProductsByCategory
 {
     public record GetProductByCategoryQuery
         (string? Category, int? PageNumber = 1, int? PageSize = 10, bool? AsIdList = false) 

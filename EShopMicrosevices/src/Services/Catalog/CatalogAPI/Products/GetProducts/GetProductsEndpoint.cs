@@ -1,10 +1,10 @@
-﻿namespace CatalogAPI.Products.GetProduct
+﻿namespace CatalogAPI.Products.GetProducts
 {
     public record GetProductsRequest(int? PageNumber = 1, int? PageSize = 10);
 
     public record GetProductsResponse(IEnumerable<Product> Products);
 
-    public class GetProductEndpoint : ICarterModule
+    public class GetProductsEndpoint : ICarterModule
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {

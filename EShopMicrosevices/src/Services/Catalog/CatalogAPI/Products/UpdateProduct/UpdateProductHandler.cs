@@ -1,7 +1,4 @@
-﻿
-using CatalogAPI.Products.GetProductByName;
-
-namespace CatalogAPI.Products.UpdateProduct
+﻿namespace CatalogAPI.Products.UpdateProduct
 {
     public record UpdateProductCommand(Guid Id, string Name, List<string> Category, string Description, string ImageFile, decimal Price)
         : ICommand<UpdateProcuctResult>;
