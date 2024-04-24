@@ -1,7 +1,6 @@
-﻿
-namespace CatalogAPI.Products.DeleteProduct
+﻿namespace CatalogAPI.Products.DeleteProduct
 {
-    public record DeleteProductRequest(Guid Id) 
+    public record DeleteProductRequest(Guid Id)
         : ICommand<DeleteProductResponse>;
 
     public record DeleteProductResult(bool IsSuccess);
@@ -21,7 +20,7 @@ namespace CatalogAPI.Products.DeleteProduct
         {
             var product = await session.LoadAsync<Product>(command.Id, cancellationToken);
 
-            if (product is null) 
+            if (product is null)
             {
                 throw new ProductNotFoundException(command.Id);
             }

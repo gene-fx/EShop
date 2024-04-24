@@ -1,7 +1,4 @@
-﻿
-using CatalogAPI.Products.UpdateProduct;
-
-namespace CatalogAPI.Products.DeleteProduct
+﻿namespace CatalogAPI.Products.DeleteProduct
 {
     //public record DeleteProductRequest();
 

@@ -8,8 +8,8 @@
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapGet("/products/category/{category}", 
-                async (ISender sender, 
+            app.MapGet("/products/category/{category}",
+                async (ISender sender,
                 string category,
                 [AsParameters] GetProductByCategoryRequest request) =>
             {

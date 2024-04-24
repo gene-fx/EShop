@@ -1,6 +1,4 @@
-﻿
-using CatalogAPI.Products.CreateProduct;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogAPI.Products.DeleteSeveralProducts
 {
@@ -12,8 +10,8 @@ namespace CatalogAPI.Products.DeleteSeveralProducts
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapDelete("/products", 
-                async ([FromBody]DeleteSeveralProductsRequest request, [FromServices]ISender sender) => 
+            app.MapDelete("/products",
+                async ([FromBody] DeleteSeveralProductsRequest request, [FromServices] ISender sender) =>
             {
                 var command = request.Adapt<DeleteSeveralProductsCommand>();
 

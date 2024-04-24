@@ -1,7 +1,4 @@
-﻿
-using CatalogAPI.Products.CreateProduct;
-
-namespace CatalogAPI.Products.UpdateProduct
+﻿namespace CatalogAPI.Products.UpdateProduct
 {
     public record UpdateProductRequest(Guid Id, string Name, List<string> Category, string Description, string ImageFile, decimal Price);
 
@@ -13,8 +10,8 @@ namespace CatalogAPI.Products.UpdateProduct
         {
             app.MapPut("/products/{id:Guid}", async (ISender sender, UpdateProductRequest request) =>
             {
-                var command =  request.Adapt<UpdateProductCommand>();
-                
+                var command = request.Adapt<UpdateProductCommand>();
+
                 var result = await sender.Send(command);
 
                 return Results.Ok(result.Adapt<UpdateProductResponse>());

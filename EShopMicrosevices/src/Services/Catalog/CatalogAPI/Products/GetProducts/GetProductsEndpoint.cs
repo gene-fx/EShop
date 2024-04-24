@@ -8,7 +8,7 @@
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapGet("/products", async 
+            app.MapGet("/products", async
                 ([AsParameters] GetProductsRequest request,
                 ISender sender) =>
             {
@@ -17,7 +17,7 @@
                 var result = await sender.Send(query);
 
                 return Results.Ok(result.Adapt<GetProductsResponse>());
-              })
+            })
             .WithName("GetProducts")
             .Produces<GetProductsResponse>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)

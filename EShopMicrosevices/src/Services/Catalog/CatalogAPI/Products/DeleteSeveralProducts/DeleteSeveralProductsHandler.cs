@@ -20,7 +20,7 @@
         {
             var products = new List<Product>();
 
-            foreach(Guid id in command.Ids) 
+            foreach (Guid id in command.Ids)
             {
                 var product = await session.LoadAsync<Product>(id, cancellationToken);
 

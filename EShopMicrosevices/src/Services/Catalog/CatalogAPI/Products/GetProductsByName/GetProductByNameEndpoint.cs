@@ -8,7 +8,7 @@
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapGet("/products/{name}", 
+            app.MapGet("/products/{name}",
                 async (ISender sender,
                 string name,
                 [AsParameters] GetProductByNameRequest request) =>

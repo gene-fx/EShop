@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BuildingBlocks.Exceptions.Handler
 {
-    public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger) 
+    public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger)
         : IExceptionHandler
     {
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
@@ -27,7 +27,7 @@ namespace BuildingBlocks.Exceptions.Handler
                     exception.GetType().Name,
                     httpContext.Response.StatusCode = StatusCodes.Status400BadRequest
                 ),
-                NotFoundException => 
+                NotFoundException =>
                 (
                     exception.Message,
                     exception.GetType().Name,
@@ -39,7 +39,7 @@ namespace BuildingBlocks.Exceptions.Handler
                     exception.GetType().Name,
                     httpContext.Response.StatusCode = StatusCodes.Status400BadRequest
                 ),
-                _ => 
+                _ =>
                 (
                     exception.Message,
                     exception.GetType().Name,
@@ -57,7 +57,7 @@ namespace BuildingBlocks.Exceptions.Handler
 
             problemDetails.Extensions.Add("traceId", httpContext.TraceIdentifier);
 
-            if ( exception is ValidationException validationException )
+            if (exception is ValidationException validationException)
             {
                 problemDetails.Extensions.Add("ValidationErrors", validationException.Message);
             }

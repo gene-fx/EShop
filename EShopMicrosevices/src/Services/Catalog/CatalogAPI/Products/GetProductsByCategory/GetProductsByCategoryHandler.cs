@@ -1,7 +1,7 @@
 ﻿namespace CatalogAPI.Products.GetProductsByCategory
 {
     public record GetProductByCategoryQuery
-        (string? Category, int? PageNumber = 1, int? PageSize = 10, bool? AsIdList = false) 
+        (string? Category, int? PageNumber = 1, int? PageSize = 10, bool? AsIdList = false)
         : IQuery<GetProductByCategoryResult>;
 
     public record GetProductByCategoryResult(IEnumerable<Product> Products);

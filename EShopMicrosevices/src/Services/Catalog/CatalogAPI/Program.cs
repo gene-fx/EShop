@@ -42,4 +42,3 @@ app.UseHealthChecks("/health",
     });
 
 app.Run();
- 
