@@ -4,7 +4,7 @@ using Mapster;
 
 namespace CatalogAPI.Products.GetProductByCategory
 {
-    //public record GetProductByCategoryRequest();
+    public record GetProductByCategoryRequest(string? Category, int? PageNumber = 1, int? PageSize = 10, bool? AsIdList = false);
 
     public record GetProductByCategoryResponse(IEnumerable<Product> Products);
 
@@ -12,11 +12,28 @@ namespace CatalogAPI.Products.GetProductByCategory
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapGet("/products/category/{category}", async (ISender sender, string category) =>
+            app.MapGet("/products/category/{category}", 
+                async (ISender sender, 
+                string category,
+                [AsParameters] GetProductByCategoryRequest request) =>
             {
-                var result = await sender.Send(new GetProductByCategoryQuery(category));
+                request = new GetProductByCategoryRequest(category, request.PageNumber, request.PageSize, request.AsIdList);
+
+                var result = await sender.Send(request.Adapt<GetProductByCategoryQuery>());
 
                 GetProductByCategoryResponse response = result.Adapt<GetProductByCategoryResponse>();
+
+                if (request.AsIdList ?? false)
+                {
+                    List<Guid> ids = new List<Guid>();
+
+                    foreach (Product product in response.Products)
+                    {
+                        ids.Add(product.Id);
+                    }
+
+                    return Results.Ok(ids);
+                }
 
                 return Results.Ok(response);
             })

@@ -21,13 +21,14 @@ if (builder.Environment.IsDevelopment())
     builder.Services.InitializeMartenWith<CatalogInitialData>();
 
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 var app = builder.Build();
 //Configure HTTP request pipeline
 
 app.MapCarter();
 
-app.UseExceptionHandler(_ => { });
+app.UseExceptionHandler();
 
 app.Run();
  

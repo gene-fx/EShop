@@ -2,7 +2,9 @@
 
 namespace CatalogAPI.Products.GetProductByName
 {
-    public record GetProductByNameQuery(string Name) : IQuery<GetProductByNameResult>;
+    public record GetProductByNameQuery
+        (string? Name, int? PageNumber = 1, int? PageSize = 10, bool? AsIdList = false) 
+        : IQuery<GetProductByNameResult>;
 
     public record GetProductByNameResult(IEnumerable<Product> Products);
 
@@ -20,11 +22,11 @@ namespace CatalogAPI.Products.GetProductByName
         public async Task<GetProductByNameResult> Handle(GetProductByNameQuery query, CancellationToken cancellationToken)
         {
             var result = await session.Query<Product>()
-                .Where(_ => _.Name.ToLower() == query.Name.ToString().ToLower()).ToListAsync();
+                .Where(_ => _.Name.ToLower() == query.Name.ToString().ToLower()).ToPagedListAsync(query.PageNumber ?? 1, query.PageSize ?? 10, cancellationToken);
 
-            if(result.Count <= 0) 
+            if(!result.Any()) 
             {
-                throw new ProductNotFoundException($"No product was found with the name {query.Name}");
+                throw new ProductNotFoundException($"No product was found under the name {query.Name}");
             }
 
             return new GetProductByNameResult(result);
