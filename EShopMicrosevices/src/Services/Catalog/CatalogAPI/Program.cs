@@ -16,7 +16,7 @@ builder.Services.AddCarter();
 
 builder.Services.AddMarten(_ =>
 {
-    _.Connection(builder.Configuration.GetConnectionString("Postgres")!);
+    _.Connection(builder.Configuration.GetConnectionString("Postgresql")!);
 }).UseLightweightSessions();
 
 if (builder.Environment.IsDevelopment())
@@ -26,7 +26,7 @@ builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 builder.Services.AddProblemDetails();
 
 builder.Services.AddHealthChecks()
-    .AddNpgSql(builder.Configuration.GetConnectionString("Postgres")!);
+    .AddNpgSql(builder.Configuration.GetConnectionString("Postgresql")!);
 
 var app = builder.Build();
 //Configure HTTP request pipeline
