@@ -14,7 +14,7 @@ namespace BasketAPI.Basket.GetBasket
             {
                 var query = new GetBasketQuety(userName);
 
-                var result = sender.Send(query);
+                var result = await sender.Send(query);
 
                 var response = result.Adapt<GetBasketResponse>();
 
