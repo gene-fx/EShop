@@ -10,6 +10,8 @@ builder.Services.AddMediatR(_ =>
     _.AddOpenBehavior(typeof(LogginBehavior<,>));
 });
 
+builder.Services.AddValidatorsFromAssembly((typeof(Program).Assembly));
+
 builder.Services.AddCarter();
 
 var app = builder.Build();
