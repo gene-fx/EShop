@@ -18,8 +18,6 @@
     {
         public async Task<DeleteBasketResult> Handle(DeleteBasketCommand command, CancellationToken cancellationToken)
         {
-            logger.LogInformation("Deleting {1}, at {2}", request.UserName, DateTime.UtcNow);]
-
             //TODO: implement the logic within dbconnection            
 
             return new DeleteBasketResult(true);
