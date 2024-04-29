@@ -14,7 +14,6 @@ builder.Services.AddCarter();
 
 var app = builder.Build();
 
-
 //!Configure HTTP request pipeline
 app.MapGet("/", () => "Hello World!");
 

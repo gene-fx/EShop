@@ -1,6 +1,4 @@
-﻿using Mapster;
-
-namespace BasketAPI.Basket.GetBasket
+﻿namespace BasketAPI.Basket.GetBasket
 {
     //public record GetBasketRequest(string UserName);
 

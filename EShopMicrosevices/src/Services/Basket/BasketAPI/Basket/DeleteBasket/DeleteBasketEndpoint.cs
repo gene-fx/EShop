@@ -1,7 +1,4 @@
-﻿
-using Mapster;
-
-namespace BasketAPI.Basket.DeleteBasket
+﻿namespace BasketAPI.Basket.DeleteBasket
 {
     public record DeleteBaskettRequest(string UserName);
 
@@ -17,7 +14,6 @@ namespace BasketAPI.Basket.DeleteBasket
                 //ISender sends a Request adapted as Command
                 return Results.Ok(await sender.Send(new DeleteBaskettRequest(userName).Adapt<DeleteBasketCommand>()));
             });
-
         }
     }
 }

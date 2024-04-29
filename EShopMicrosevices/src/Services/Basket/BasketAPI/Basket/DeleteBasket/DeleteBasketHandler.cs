@@ -1,4 +1,4 @@
-﻿ namespace BasketAPI.Basket.DeleteBasket
+﻿namespace BasketAPI.Basket.DeleteBasket
 {
     public record DeleteBasketCommand(string UserName)
         : ICommand<DeleteBasketResult>;
@@ -18,7 +18,7 @@
     {
         public async Task<DeleteBasketResult> Handle(DeleteBasketCommand command, CancellationToken cancellationToken)
         {
-            //TODO: implement the logic within dbconnection            
+            //TODO: implement the logic within dbconnection
 
             return new DeleteBasketResult(true);
         }

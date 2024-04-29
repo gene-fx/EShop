@@ -1,7 +1,4 @@
-﻿using BuildingBlocks.CQRS;
-using FluentValidation;
-
-namespace BasketAPI.Basket.StoreBasket
+﻿namespace BasketAPI.Basket.StoreBasket
 {
     public record StoreBasketCommand(ShoppingCart Cart) : ICommand<StoreBasketResult>;
 
@@ -23,7 +20,7 @@ namespace BasketAPI.Basket.StoreBasket
         {
             //TODO: store ShoppingCart into Db
 
-            return new StoreBasketResult("coco");
+            return new StoreBasketResult(command.Cart.UserName);
         }
     }
 }

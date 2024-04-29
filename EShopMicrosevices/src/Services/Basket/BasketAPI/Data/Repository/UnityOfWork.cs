@@ -1,5 +1,4 @@
-﻿
-namespace BasketAPI.Data.Repository
+﻿namespace BasketAPI.Data.Repository
 {
     public class UnityOfWork : IUnityOfWork
     {

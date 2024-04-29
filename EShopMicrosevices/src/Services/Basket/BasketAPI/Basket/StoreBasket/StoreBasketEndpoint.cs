@@ -1,7 +1,4 @@
-﻿
-using Mapster;
-
-namespace BasketAPI.Basket.StoreBasket
+﻿namespace BasketAPI.Basket.StoreBasket
 {
     public record StoreBasketRequet(ShoppingCart Cart);
 
@@ -19,7 +16,6 @@ namespace BasketAPI.Basket.StoreBasket
 
                 return Results.Ok(result.Adapt<StoreBasketResponse>());
             });
-
         }
     }
 }
