@@ -11,8 +11,13 @@
         {
             app.MapDelete("/basket/{userName}", async (string userName) =>
             {
-                //ISender sends a Request adapted as Command
-                return Results.Ok(await sender.Send(new DeleteBaskettRequest(userName).Adapt<DeleteBasketCommand>()));
+                var request = new DeleteBaskettRequest(userName);
+
+                var command = request.Adapt<DeleteBasketCommand>();
+
+                var response = await sender.Send(command);
+
+                return Results.Ok(response.Adapt<DeleteBasketResponse>());
             });
         }
     }

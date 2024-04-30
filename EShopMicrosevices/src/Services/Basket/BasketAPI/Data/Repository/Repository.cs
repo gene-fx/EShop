@@ -1,25 +1,38 @@
 ﻿namespace BasketAPI.Data.Repository
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T>
+        (IDocumentSession session)
+        : IRepository<T> where T : class
     {
-        public Task<T> Add(T entity, CancellationToken cancellationToken)
+        public void Add(T entity)
         {
-            throw new NotImplementedException();
+            session.Insert<T>(entity);
         }
 
         public void Delete(T entity)
         {
-            throw new NotImplementedException();
+            session.Delete<T>(entity);
         }
 
-        public Task<T> Get(Expression<Func<T, bool>>? filter = null, bool? asNoTrack = true)
+        public async Task<T> Get(Expression<Func<T, bool>> filter)
         {
-            throw new NotImplementedException();
+            var query = await session.Query<T>().Where(filter).ToListAsync();
+
+            return query.Any() ? query[0] : throw new EntityNotFoundException("No entity was found under the requested name.");
         }
 
-        public Task<T> GetAll(Expression<Func<T, bool>>? filter = null)
-        {
-            throw new NotImplementedException();
+        public async Task<IReadOnlyList<T>> GetAll(Expression<Func<T, bool>>? filter = null)
+        {   
+            if (filter is not null)
+            {
+                var query = await session.Query<T>().Where(filter).ToListAsync();
+              
+                return query.ToList().Any() ? await session.Query<T>().Where(filter).ToListAsync() : throw new EntityNotFoundException(filter.Body.ToString());
+            }
+
+            var all = await session.Query<T>().ToListAsync();
+
+            return all.Any() ? all : throw new EntityNotFoundException("No entity was found under the requested name.");
         }
     }
 }
