@@ -4,6 +4,17 @@
 
     public record GetBasketResult(ShoppingCart Cart);
 
+    public class GetBasketQueryValidator : AbstractValidator<GetBasketQuery>
+    {
+        public GetBasketQueryValidator()
+        {
+            RuleFor(model => model.UserName)
+                .NotEmpty()
+                .NotNull()
+                .WithMessage("UserName is required");
+        }
+    }
+
     internal class GetBasketQueryHandler
         (IUnityOfWork unityOfWork)
         : IQueryHandler<GetBasketQuery, GetBasketResult>

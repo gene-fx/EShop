@@ -15,6 +15,17 @@
 
     public record DeleteBasketResult(bool IsSuccess);
 
+    public class DeleteBasketCommandValtidator : AbstractValidator<DeleteBasketCommand>
+    {
+        public DeleteBasketCommandValtidator()
+        {
+            RuleFor(model => model.UserName)
+                .NotNull()
+                .NotEmpty()
+                .WithMessage("UserName is required");
+        }
+    }
+
     internal class DeleteBasketCommandHandler
         (IServiceScopeFactory serviceScopeFactory)
         : ICommandHandler<DeleteBasketCommand, DeleteBasketResult>
