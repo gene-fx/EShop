@@ -1,12 +1,15 @@
 ﻿namespace BasketAPI.Basket.DeleteBasket
 {
     /// <summary>
-    /// This method is handling the delete commando by using 
-    /// the IUnityOfWork not as an injected service,
-    /// but requesting when excuting the task because it is
-    /// a singleton service and it cannot consume a scoped sevice
+    /// This method handles the delete command using the 
+    /// IServiceScopeFactore interface to create an instance 
+    /// of the services registered in the container in a scoped
+    /// context, therefore allowing a scoped service to be called 
+    /// in a singleton service.
+    /// ICommandHandler = SINGLETON
+    /// IUnityOfWork = SCOPED
     /// </summary>
-    /// <param name="unityOfWork"></param>
+    /// <param name="serviceScopeFactory"></param>
     public record DeleteBasketCommand(string UserName) 
         : ICommand<DeleteBasketResult>;
 
@@ -22,9 +25,12 @@
 
             var unityOfWork = scope.ServiceProvider.GetRequiredService<IUnityOfWork>();
 
-            var cart = await unityOfWork.BasketRepository.Get(x => x.UserName == command.UserName);
+            if(await unityOfWork.BasketRepository.Get(x => x.UserName == command.UserName) is null) 
+            {
+                throw new BasketNotFoundException(command.UserName);
+            }
 
-            unityOfWork.BasketRepository.Delete(cart);
+            unityOfWork.BasketRepository.Delete(command.UserName);
 
             await unityOfWork.Commit(cancellationToken);
 

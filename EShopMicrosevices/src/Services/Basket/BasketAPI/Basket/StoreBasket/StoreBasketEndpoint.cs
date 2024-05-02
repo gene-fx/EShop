@@ -14,8 +14,13 @@
 
                 var result = await sender.Send(command);
 
-                return Results.Ok(result.Adapt<StoreBasketResponse>());
-            });
+                return Results.Created($"/basket/{result.UserName}", result.Adapt<StoreBasketResponse>());
+            })
+            .WithName("StoreBasket")
+            .Produces<StoreBasketResponse>(StatusCodes.Status201Created)
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .WithSummary("Store Basket")
+            .WithDescription("Add or Update basket");
         }
     }
 }

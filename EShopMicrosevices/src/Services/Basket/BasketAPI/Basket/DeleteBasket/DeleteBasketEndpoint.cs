@@ -1,4 +1,6 @@
-﻿namespace BasketAPI.Basket.DeleteBasket
+﻿using BasketAPI.Basket.GetBasket;
+
+namespace BasketAPI.Basket.DeleteBasket
 {
     public record DeleteBasketRequest(string UserName);
 
@@ -18,7 +20,12 @@
                 var response = await sender.Send(command);
 
                 return Results.Ok(response.Adapt<DeleteBasketResponse>());
-            });
+            })
+            .WithName("DeleteBasket")
+            .Produces<DeleteBasketResponse>(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .WithSummary("Delete Basket")
+            .WithDescription("Delete Basket");
         }
     }
 }

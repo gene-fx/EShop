@@ -12,6 +12,11 @@
         {
             var result = await unityOfWork.BasketRepository.Get(x => x.UserName == query.UserName);
 
+            if(result is null)
+            {
+                throw new BasketNotFoundException(query.UserName);
+            }
+
             return new GetBasketResult(result);
         }
     }
