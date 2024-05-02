@@ -1,36 +1,28 @@
-//#BASKET API
-
 var builder = WebApplication.CreateBuilder(args);
 
-//!Add services to the container
-
-builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LogginBehavior<,>));
-
-builder.Services.AddMediatR(_ =>
+// Add services to the container.
+var assembly = typeof(Program).Assembly;
+builder.Services.AddCarter();
+builder.Services.AddMediatR(config =>
 {
-    _.RegisterServicesFromAssembly(typeof(Program).Assembly);
-    _.AddOpenBehavior(typeof(ValidationBehavior<,>));
-    _.AddOpenBehavior(typeof(LogginBehavior<,>));
+    config.RegisterServicesFromAssembly(assembly);
+    config.AddOpenBehavior(typeof(ValidationBehavior<,>));
+    config.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
 
-builder.Services.AddMarten(_ =>
+builder.Services.AddMarten(opts =>
 {
-    _.Connection(builder.Configuration.GetConnectionString("Database")!);
-    _.Schema.For<ShoppingCart>().Identity(x => x.UserName);
+    opts.Connection(builder.Configuration.GetConnectionString("Database")!);
+    opts.Schema.For<ShoppingCart>().Identity(x => x.UserName);
 }).UseLightweightSessions();
 
-builder.Services.AddValidatorsFromAssembly((typeof(Program).Assembly));
-
 builder.Services.AddScoped<IUnityOfWork, UnityOfWork>();
-
-builder.Services.AddCarter();
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 var app = builder.Build();
 
-//!Configure HTTP request pipeline
-app.MapGet("/", () => "Hello World!");
-
+// Configure the HTTP request pipeline.
 app.MapCarter();
+app.UseExceptionHandler(options => { });
 
 app.Run();

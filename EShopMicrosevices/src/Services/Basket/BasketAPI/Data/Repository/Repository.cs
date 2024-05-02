@@ -11,7 +11,7 @@
 
         public void Delete(T entity)
         {
-            session.Delete<T>(entity);
+             session.Delete<T>(entity);
         }
 
         public async Task<T> Get(Expression<Func<T, bool>> filter)

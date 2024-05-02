@@ -1,6 +1,6 @@
 ﻿namespace BasketAPI.Basket.DeleteBasket
 {
-    public record DeleteBaskettRequest(string UserName);
+    public record DeleteBasketRequest(string UserName);
 
     public record DeleteBasketResponse(bool IsSuccess);
 
@@ -11,7 +11,7 @@
         {
             app.MapDelete("/basket/{userName}", async (string userName) =>
             {
-                var request = new DeleteBaskettRequest(userName);
+                var request = new DeleteBasketRequest(userName);
 
                 var command = request.Adapt<DeleteBasketCommand>();
 
