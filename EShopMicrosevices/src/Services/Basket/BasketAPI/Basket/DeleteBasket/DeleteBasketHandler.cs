@@ -34,18 +34,21 @@
         {
             using IServiceScope scope = serviceScopeFactory.CreateScope();
 
-            var unityOfWork = scope.ServiceProvider.GetRequiredService<IUnityOfWork>();
+            var basketRepository = scope.ServiceProvider.GetRequiredService<IBasketRepository>();
 
-            if(await unityOfWork.BasketRepository.Get(x => x.UserName == command.UserName) is null) 
+            if(await basketRepository.Get(command.UserName) is null) 
             {
                 throw new BasketNotFoundException(command.UserName);
             }
 
-            unityOfWork.BasketRepository.Delete(command.UserName);
+            if(await basketRepository.Delete(command.UserName, cancellationToken))
+            {
+                await basketRepository.Commit(cancellationToken);
 
-            await unityOfWork.Commit(cancellationToken);
+                return new DeleteBasketResult(true);
+            }
 
-            return new DeleteBasketResult(true);
+            return new DeleteBasketResult(false);
         }
     }
 }

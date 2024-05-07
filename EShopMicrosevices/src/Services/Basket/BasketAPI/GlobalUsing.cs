@@ -11,5 +11,6 @@ global using Marten;
 global using Mapster;
 global using MediatR;
 global using System.Linq.Expressions;
-
+global using Microsoft.Extensions.Caching.Distributed;
+global using System.Text.Json;
 namespace BasketAPI;

@@ -1,4 +1,7 @@
-﻿namespace BasketAPI.Basket.GetBasket
+﻿using BasketAPI.Data.Repository;
+using Microsoft.Extensions.Caching.Distributed;
+
+namespace BasketAPI.Basket.GetBasket
 {
     public record GetBasketQuery(string UserName) : IQuery<GetBasketResult>;
 
@@ -16,12 +19,12 @@
     }
 
     internal class GetBasketQueryHandler
-        (IUnityOfWork unityOfWork)
+        (IBasketRepository basketRepository)
         : IQueryHandler<GetBasketQuery, GetBasketResult>
     {
         public async Task<GetBasketResult> Handle(GetBasketQuery query, CancellationToken cancellationToken)
         {
-            var result = await unityOfWork.BasketRepository.Get(x => x.UserName == query.UserName);
+            var result = await basketRepository.Get(query.UserName);
 
             if(result is null)
             {

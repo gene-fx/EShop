@@ -15,14 +15,14 @@
     }
 
     public class StoreBasketCommandHandler
-        (IUnityOfWork unityOfWork)
+        (IBasketRepository basketRepository)
         : ICommandHandler<StoreBasketCommand, StoreBasketResult>
     {
         public async Task<StoreBasketResult> Handle(StoreBasketCommand command, CancellationToken cancellationToken)
         {
-            var result = await unityOfWork.BasketRepository.Store(command.Cart);
+            var result = await basketRepository.Store(command.Cart, cancellationToken);
 
-            await unityOfWork.Commit(cancellationToken);
+            await basketRepository.Commit(cancellationToken);
 
             return new StoreBasketResult(result.UserName);
         }
