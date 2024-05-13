@@ -80,7 +80,9 @@ namespace DiscountGrpc.Services
 
             await dbContext.SaveChangesAsync();
 
-            return new CouponModel(request.Coupon);
+            var createdCoupon = await dbContext.Coupons.FirstOrDefaultAsync(x => x.ProductName == request.Coupon.ProductName);
+
+            return createdCoupon.Adapt<CouponModel>();
         }
 
         public override async Task<CouponModel> UpdateDiscount(UpdateDiscountRequest request, ServerCallContext context)
@@ -106,7 +108,9 @@ namespace DiscountGrpc.Services
 
             await dbContext.SaveChangesAsync();
 
-            return request.Coupon;
+            logger.LogInformation($"{DateTime.UtcNow} - Updating coupon {coupon.ProductName}");
+
+            return coupon.Adapt<CouponModel>();
         }
 
         public override async Task<DeleteDiscountResponse> DeleteDiscount(DeleteDiscountRequest request, ServerCallContext context)

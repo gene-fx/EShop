@@ -27,6 +27,7 @@ message GetAllDiscountsResponse {
 }
 
 message CouponModel {
+	int32 id = 1;
 	string productName = 2;
 	string description = 3;
 	int32 amount = 4;
