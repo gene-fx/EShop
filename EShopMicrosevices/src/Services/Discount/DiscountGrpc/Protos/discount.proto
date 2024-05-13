@@ -31,6 +31,8 @@ message CouponModel {
 	string productName = 2;
 	string description = 3;
 	int32 amount = 4;
+	int32 over = 5;
+	int32 overAmount = 6;
 }
 
 message CreateDiscountRequest {

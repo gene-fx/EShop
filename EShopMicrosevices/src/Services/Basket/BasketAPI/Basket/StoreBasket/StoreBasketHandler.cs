@@ -24,6 +24,7 @@ namespace BasketAPI.Basket.StoreBasket
     {
         public async Task<StoreBasketResult> Handle(StoreBasketCommand command, CancellationToken cancellationToken)
         {
+            await VerifyDiscount(command.Cart);
 
             var result = await basketRepository.Store(command.Cart, cancellationToken);
 
@@ -32,12 +33,19 @@ namespace BasketAPI.Basket.StoreBasket
             return new StoreBasketResult(result.UserName);
         }
 
-        private async Task DeductDiscount(ShoppingCart Cart)
+        private async Task VerifyDiscount(ShoppingCart Cart)
         {
             foreach (var item in Cart.Items)
             {
                 var coupon = await discountProto.GetDiscountAsync(new GetDiscountRequest { ProductName = item.ProductName });
-                item.Price -= coupon.Amount;
+
+                if (string.IsNullOrEmpty(coupon.ProductName))
+                    continue;
+
+                if (coupon.Over > 0 && item.Quantity >= coupon.Over)
+                    item.Price -= coupon.OverAmount;
+                else
+                    item.Price -= coupon.Amount;
             }
         }
     }

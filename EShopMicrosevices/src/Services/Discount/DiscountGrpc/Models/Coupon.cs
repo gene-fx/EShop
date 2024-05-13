@@ -9,5 +9,9 @@
         public string Description { get; set; } = default!;
 
         public int Amount { get; set; }
+
+        public int Over { get; set; }
+
+        public int OverAmount { get; set; }
     }
 }

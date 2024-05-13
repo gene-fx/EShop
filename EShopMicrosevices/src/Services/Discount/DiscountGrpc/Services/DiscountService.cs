@@ -19,9 +19,9 @@ namespace DiscountGrpc.Services
 
             if (coupon is null)
             {
-                logger.LogError($"{DateTime.UtcNow} - No discount has been found for {request.ProductName}.");
+                logger.LogInformation($"{DateTime.UtcNow} - No discount has been found for {request.ProductName}.");
 
-                throw new RpcException(new Status(StatusCode.InvalidArgument, "No discount found"));
+                return new CouponModel();
             }
 
             logger.LogInformation($"{DateTime.UtcNow} - Retrieving coupon {coupon.ProductName}");
@@ -97,6 +97,8 @@ namespace DiscountGrpc.Services
 
             coupon.Amount = request.Coupon.Amount;
             coupon.Description = request.Coupon.Description;
+            coupon.Over = request.Coupon.Over;
+            coupon.OverAmount = request.Coupon.OverAmount;
 
             var update = dbContext.Coupons.Update(coupon!);
 
