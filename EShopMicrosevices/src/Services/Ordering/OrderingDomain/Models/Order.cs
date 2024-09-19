@@ -1,4 +1,6 @@
 ﻿using OrderingDomain.Abstractions;
+using OrderingDomain.Enums;
+using OrderingDomain.ValueObjects;
 
 namespace OrderingDomain.Models
 {
@@ -12,9 +14,9 @@ namespace OrderingDomain.Models
 
         public string OrderName { get; private set; } = default!;
 
-        public Adress ShippingAdress { get; private set; } = default!;
+        public Address ShippingAdress { get; private set; } = default!;
 
-        public Adress BillingAdress { get; private set; } = default!;
+        public Address BillingAdress { get; private set; } = default!;
 
         public Payment Payment { get; private set; } = default!;
 
@@ -22,7 +24,7 @@ namespace OrderingDomain.Models
 
         public decimal TotalPrice
         {
-            get => OrderItems.Sum(x => x.TotalPrice * x.Quantity);
+            get => OrderItems.Sum(x => x.Price * x.Quantity);
             private set { }
         }
     }
