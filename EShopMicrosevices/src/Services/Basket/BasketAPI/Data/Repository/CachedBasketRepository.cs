@@ -1,7 +1,4 @@
-﻿
-using Microsoft.Extensions.Caching.Distributed;
-
-namespace BasketAPI.Data.Repository
+﻿namespace BasketAPI.Data.Repository
 {
     public class CachedBasketRepository
         (IBasketRepository basketRepository,

@@ -1,5 +1,3 @@
-using BasketAPI.Data.Repository;
-using BasketAPI.Data.Repository.IRepository;
 using Discount.Grpc;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -37,7 +35,16 @@ builder.Services.AddStackExchangeRedisCache(opts =>
 builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(opts =>
 {
     opts.Address = new Uri(builder.Configuration.GetConnectionString("GrpcSettings:DiscountUrl")!);
-});
+})
+    .ConfigurePrimaryHttpMessageHandler(() =>
+    {
+        var handler = new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+        };
+
+        return handler;
+    });
 
 //! Cross-Cutting services
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();

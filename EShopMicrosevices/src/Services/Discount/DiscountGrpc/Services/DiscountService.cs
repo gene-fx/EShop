@@ -1,7 +1,6 @@
 ﻿using Discount.Grpc;
 using DiscountGrpc.Data;
 using DiscountGrpc.Models;
-using Google.Protobuf.Collections;
 using Grpc.Core;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
