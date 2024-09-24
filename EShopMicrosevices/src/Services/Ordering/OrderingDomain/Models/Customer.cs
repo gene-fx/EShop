@@ -1,13 +1,6 @@
-﻿using OrderingDomain.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OrderingDomain.Models
+﻿namespace OrderingDomain.Models
 {
-    public class Customer : Entity<Guid>
+    public class Customer : Entity<CustomerId>
     {
         public string Name { get; private set; } = default!;
 

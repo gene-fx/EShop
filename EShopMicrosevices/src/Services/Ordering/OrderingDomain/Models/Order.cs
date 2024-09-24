@@ -1,10 +1,6 @@
-﻿using OrderingDomain.Abstractions;
-using OrderingDomain.Enums;
-using OrderingDomain.ValueObjects;
-
-namespace OrderingDomain.Models
+﻿namespace OrderingDomain.Models
 {
-    public class Order : Aggregate<Guid>
+    public class Order : Aggregate<OrderId>
     {
         private readonly List<OrderItem> _orderItems = new();
 

@@ -1,8 +1,6 @@
-﻿using OrderingDomain.Abstractions;
-
-namespace OrderingDomain.Models
+﻿namespace OrderingDomain.Models
 {
-    public class Product : Entity<Guid>
+    public class Product : Entity<ProductId>
     {
         public string Name { get; private set; } = default!;
 
