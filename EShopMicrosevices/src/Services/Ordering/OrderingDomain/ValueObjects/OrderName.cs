@@ -2,6 +2,6 @@
 {
     public record OrderName
     {
-        public string Value { get; }
+        public string? Value { get; }
     }
 }
