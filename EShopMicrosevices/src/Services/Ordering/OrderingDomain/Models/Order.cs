@@ -6,9 +6,9 @@
 
         public IReadOnlyList<OrderItem> OrderItems => _orderItems.AsReadOnly();
 
-        public Guid CustomerID { get; private set; } = default!;
+        public CustomerId CustomerId { get; private set; } = default!;
 
-        public string OrderName { get; private set; } = default!;
+        public OrderName OrderName { get; private set; } = default!;
 
         public Address ShippingAdress { get; private set; } = default!;
 
@@ -22,6 +22,58 @@
         {
             get => OrderItems.Sum(x => x.Price * x.Quantity);
             private set { }
+        }
+
+        public static Order Create(OrderId orderId, CustomerId customerId, OrderName orderName, 
+            Address shippingAddress, Address bilingAddress, Payment payment)
+        {
+            var order = new Order
+            {
+                Id = orderId,
+                CustomerId = customerId,
+                OrderName = orderName,
+                ShippingAdress = shippingAddress,
+                BillingAdress = bilingAddress,
+                Payment = payment,
+                Status = OrderStatus.Pending,
+            };
+
+            order.AddDomainEvent(new OrderCreateEvent(order));
+
+            return order;
+        }
+
+        public void Update(OrderName orderName, Address shippingAddress,
+            Address bilingAddress, Payment payment, OrderStatus status)
+        {
+            OrderName = orderName;
+            ShippingAdress = shippingAddress;
+            BillingAdress = bilingAddress;
+            Payment = payment;
+            Status = status;
+
+            AddDomainEvent(new OrderUpdateEvent(this));
+        }
+
+        public void Add(ProductId productId, int quantity, decimal price)
+        {
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(quantity);
+
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(price);
+
+            var orderItem = new OrderItem(Id ,productId, quantity, price);
+
+            _orderItems.Add(orderItem);
+        }
+
+        public void Remove(ProductId productId)
+        {
+            var orderItem = _orderItems.FirstOrDefault(x => x.ProductId == productId);
+
+            if (orderItem is not null)
+            {
+                _orderItems.Remove(orderItem);
+            }
         }
     }
 }
