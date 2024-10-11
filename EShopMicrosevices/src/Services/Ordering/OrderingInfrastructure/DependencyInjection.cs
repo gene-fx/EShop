@@ -1,19 +1,16 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace OrderingInfrastructure
+﻿namespace OrderingInfrastructure
 {
     public static class DependencyInjection
     {
         public static IServiceCollection AddInfrastructureServices
             (this IServiceCollection services, IConfiguration configuration)
         {
-            //services.AddDbContext<ApplicationDbContext>(x =>
-            //{
-            //    x.UseSqlServer(configuration.GetConnectionString("Database")!);
-            //});
+            services.AddDbContext<ApplicationDbContext>(x =>
+            {
+                x.UseSqlServer(configuration.GetConnectionString("Database")!);
+            });
 
-            //serices.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+            services.AddScoped<ApplicationDbContext>();
 
             return services;
         }

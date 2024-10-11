@@ -10,7 +10,7 @@
 
         public OrderName OrderName { get; private set; } = default!;
 
-        public Address ShippingAdress { get; private set; } = default!;
+        public Address ShippingAddress { get; private set; } = default!;
 
         public Address BillingAdress { get; private set; } = default!;
 
@@ -24,7 +24,7 @@
             private set { }
         }
 
-        public static Order Create(OrderId orderId, CustomerId customerId, OrderName orderName, 
+        public static Order Create(OrderId orderId, CustomerId customerId, OrderName orderName,
             Address shippingAddress, Address bilingAddress, Payment payment)
         {
             var order = new Order
@@ -32,7 +32,7 @@
                 Id = orderId,
                 CustomerId = customerId,
                 OrderName = orderName,
-                ShippingAdress = shippingAddress,
+                ShippingAddress = shippingAddress,
                 BillingAdress = bilingAddress,
                 Payment = payment,
                 Status = OrderStatus.Pending,
@@ -47,7 +47,7 @@
             Address bilingAddress, Payment payment, OrderStatus status)
         {
             OrderName = orderName;
-            ShippingAdress = shippingAddress;
+            ShippingAddress = shippingAddress;
             BillingAdress = bilingAddress;
             Payment = payment;
             Status = status;
@@ -61,7 +61,7 @@
 
             ArgumentOutOfRangeException.ThrowIfNegativeOrZero(price);
 
-            var orderItem = new OrderItem(Id ,productId, quantity, price);
+            var orderItem = new OrderItem(Id, productId, quantity, price);
 
             _orderItems.Add(orderItem);
         }
