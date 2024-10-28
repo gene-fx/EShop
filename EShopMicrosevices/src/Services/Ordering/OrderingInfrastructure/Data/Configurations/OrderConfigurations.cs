@@ -26,8 +26,8 @@ namespace OrderingInfrastructure.Data.Configurations
                 .HasForeignKey(orderItem => orderItem.OrderId);//! Order 1 - n OrderItem
                                                                //! it represents the relation between one Order with many OrderItems
 
-            builder.ComplexProperty(order => order.OrderName, orderName =>
-            {
+            builder.ComplexProperty(order => order.OrderName, orderName => //! It defines complexes properties like
+            {                                                              //! OrderName that has its won properties
                 orderName.Property(orderName => orderName.Value)
                         .HasColumnName(nameof(OrderName))
                         .HasMaxLength(100)
@@ -42,6 +42,19 @@ namespace OrderingInfrastructure.Data.Configurations
 
                 orderShippingAddress.Property(orderShippingAddress => orderShippingAddress.LastName)
                                     .HasMaxLength(50)
+                                    .IsRequired();
+
+                orderShippingAddress.Property(orderShippingAddress => orderShippingAddress.AddressLine)
+                                    .HasMaxLength(200)
+                                    .IsRequired();
+
+                orderShippingAddress.Property(orderShippingAddress => orderShippingAddress.ZipCode)
+                                    .IsRequired();
+
+                orderShippingAddress.Property(orderShippingAddress => orderShippingAddress.Country)
+                                    .IsRequired();
+
+                orderShippingAddress.Property(orderShippingAddress => orderShippingAddress.State)
                                     .IsRequired();
 
             });
