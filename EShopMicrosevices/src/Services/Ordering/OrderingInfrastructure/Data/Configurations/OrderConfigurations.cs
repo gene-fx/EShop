@@ -1,5 +1,4 @@
-﻿//TODO: End the Order complex properties entity configuration
-
+﻿using OrderingDomain.Enums;
 
 namespace OrderingInfrastructure.Data.Configurations
 {
@@ -18,7 +17,7 @@ namespace OrderingInfrastructure.Data.Configurations
                 .WithMany()
                 .HasForeignKey(order => order.CustomerId)
                 .IsRequired();                            //! Order  n - 1 Cusotmer
-                                                          //! /\ It means that a Order have only one custume,
+                                                          //! /\ It means that an Order have only one custumer,
                                                           //! but a Customer can be realeted to multiple Orders
 
             builder.HasMany<OrderItem>()
@@ -44,6 +43,10 @@ namespace OrderingInfrastructure.Data.Configurations
                                     .HasMaxLength(50)
                                     .IsRequired();
 
+                orderShippingAddress.Property(orderShippingAddress => orderShippingAddress.EmailAddress)
+                                    .HasMaxLength(100)
+                                    .IsRequired();
+
                 orderShippingAddress.Property(orderShippingAddress => orderShippingAddress.AddressLine)
                                     .HasMaxLength(200)
                                     .IsRequired();
@@ -58,6 +61,33 @@ namespace OrderingInfrastructure.Data.Configurations
                                     .IsRequired();
 
             });
+
+            builder.ComplexProperty(order => order.Payment, payment =>
+            {
+                payment.Property(p => p.CardName)
+                        .HasMaxLength(50);
+
+                payment.Property(p => p.CardNumber)
+                        .HasMaxLength(24)
+                        .IsRequired();
+
+                payment.Property(p => p.Expiration)
+                        .HasMaxLength(10);
+
+                payment.Property(p => p.CVV)
+                        .HasMaxLength(3)
+                        .IsRequired();
+
+                payment.Property(p => p.PaymentMethod)
+                        .IsRequired();
+            });
+
+            builder.Property(order => order.Status)
+                .HasDefaultValue(OrderStatus.Draft)
+                .HasConversion(status => status.ToString(),
+                    dbStatus => (OrderStatus)Enum.Parse(typeof(OrderStatus), dbStatus));
+
+            builder.Property(order => order.TotalPrice);
         }
     }
 }
