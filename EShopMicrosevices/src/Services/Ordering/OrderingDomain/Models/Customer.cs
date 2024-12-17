@@ -1,4 +1,4 @@
-﻿ namespace OrderingDomain.Models
+﻿namespace OrderingDomain.Models
 {
     public class Customer : Entity<CustomerId>
     {
@@ -17,6 +17,20 @@
                 Name = name,
                 Email = email
             };
+
+            NameNormalizer(customer);
+
+            return customer;
+        }
+
+        internal static Customer NameNormalizer(Customer customer)
+        {
+            string[] names = customer.Name.Split(' ');
+
+            for (int i = 0; i < names.Length; i++)
+            {
+                names[i] = char.ToUpper(names[i][0]) + names[i].Substring(1);
+            }
 
             return customer;
         }
