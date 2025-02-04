@@ -79,5 +79,33 @@
                 Product.Create(ProductId.Of(Guid.Parse("d0b07384-d9a1-4c9e-8f6d-1a2b3c4d5e6f")), "Product30", decimal.Parse("3000.40")),
                 Product.Create(ProductId.Of(Guid.Parse("e1b07384-d9a1-4c9e-8f6d-1a2b3c4d5e6f")), "Product31", decimal.Parse("3100.20"))
             };
+
+        public static IEnumerable<Order> OrdersWithItems
+        {
+            get
+            {
+                Address address1 = Address.Of("Alice", "Marie Smith", "alice.smith@example.com", "123 Main St", "USA", "CA", "90210");
+
+                Payment payment1 = Payment.Of("Alice Marie Smith", "1234 5678 9012 3456", "12/25", "123", 1);
+
+                Order order1 = Order.Create(OrderId.Of(Guid.NewGuid()), CustomerId.Of(Guid.Parse("d3b07384-d9a1-4c9e-8f6d-1a2b3c4d5e6f")),
+                    orderName: OrderName.Of(payment1.CardName!), shippingAddress: address1, bilingAddress: address1, payment: payment1);
+
+                order1.Add(ProductId.Of(Guid.Parse("d3b07384-d9a1-4c9e-8f6d-1a2b3c4d5e6f")), 5, decimal.Parse("100.50"));
+                order1.Add(ProductId.Of(Guid.Parse("e4b07384-d9a1-4c9e-8f6d-1a2b3c4d5e6f")), 3, decimal.Parse("200.75"));
+
+                Address address2 = Address.Of("John", "Doe", "john.doe@example.com", "456 Elm St", "USA", "NY", "10001");
+
+                Payment payment2 = Payment.Of("John Doe", "9876 5432 1098 7654", "11/24", "456", 2);
+
+                Order order2 = Order.Create(OrderId.Of(Guid.NewGuid()), CustomerId.Of(Guid.Parse("e4b07384-d9a1-4c9e-8f6d-1a2b3c4d5e6f")),
+                    orderName: OrderName.Of(payment2.CardName!), shippingAddress: address2, bilingAddress: address2, payment: payment2);
+
+                order2.Add(ProductId.Of(Guid.Parse("f5b07384-d9a1-4c9e-8f6d-1a2b3c4d5e6f")), 2, decimal.Parse("300.40"));
+                order2.Add(ProductId.Of(Guid.Parse("d3b07384-d9a1-4c9e-8f6d-1a2b3c4d5e6f")), 3, decimal.Parse("100.50"));
+
+                return new List<Order> { order1, order2 };
+            }
+        }
     }
 }

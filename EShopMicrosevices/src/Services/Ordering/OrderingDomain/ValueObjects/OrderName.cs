@@ -8,7 +8,7 @@
 
         private OrderName(string value) => Value = value;
 
-        private static OrderName Of(string value)
+        public static OrderName Of(string value)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(value);
 

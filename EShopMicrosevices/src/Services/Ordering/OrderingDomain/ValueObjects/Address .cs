@@ -14,13 +14,13 @@
 
         public string State { get; } = default!;
 
-        public string ZipCode {  get; } = default!;
+        public string ZipCode { get; } = default!;
 
         protected Address()
         {
         }
 
-        private Address(string firstName, string lastName, string emailAdress, 
+        private Address(string firstName, string lastName, string emailAdress,
             string addressLine, string country, string state, string zipCode)
         {
             FirstName = firstName;
@@ -32,13 +32,13 @@
             ZipCode = zipCode;
         }
 
-        public Address Of(string firstName, string lastName, string emailAdress,
+        public static Address Of(string firstName, string lastName, string emailAdress,
             string addressLine, string country, string state, string zipCode)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(firstName);
             ArgumentException.ThrowIfNullOrWhiteSpace(lastName);
             ArgumentException.ThrowIfNullOrWhiteSpace(emailAdress);
-            ArgumentException.ThrowIfNullOrWhiteSpace(addressLine); 
+            ArgumentException.ThrowIfNullOrWhiteSpace(addressLine);
             ArgumentException.ThrowIfNullOrWhiteSpace(country);
             ArgumentException.ThrowIfNullOrWhiteSpace(state);
             ArgumentException.ThrowIfNullOrWhiteSpace(zipCode);

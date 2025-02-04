@@ -18,14 +18,14 @@
 
         private Payment(string cardName, string cardNumber, string expiration, string cvv, int paymentMethod)
         {
-            CardName = cardName; 
-            CardNumber = cardNumber; 
-            Expiration = expiration; 
-            CVV = cvv; 
+            CardName = cardName;
+            CardNumber = cardNumber;
+            Expiration = expiration;
+            CVV = cvv;
             PaymentMethod = paymentMethod;
         }
 
-        private static Payment Of(string cardName, string cardNumber, string expiration, string cvv, int paymentMethod)
+        public static Payment Of(string cardName, string cardNumber, string expiration, string cvv, int paymentMethod)
         {
             ArgumentException.ThrowIfNullOrEmpty(cardName);
             ArgumentException.ThrowIfNullOrWhiteSpace(cardNumber);
