@@ -1,6 +1,3 @@
-﻿namespace OrderingDomain.Evenvts
-{
-    public record OrderCreatedEvent(Order order) : IDomainEvent;
+﻿namespace OrderingDomain.Evenvts;
 
-
-}
+public record OrderCreatedEvent(Order order) : IDomainEvent;

@@ -1,37 +1,33 @@
-﻿using BasketAPI.Data.Repository;
-using Microsoft.Extensions.Caching.Distributed;
+﻿namespace BasketAPI.Basket.GetBasket;
 
-namespace BasketAPI.Basket.GetBasket
+public record GetBasketQuery(string UserName) : IQuery<GetBasketResult>;
+
+public record GetBasketResult(ShoppingCart Cart);
+
+public class GetBasketQueryValidator : AbstractValidator<GetBasketQuery>
 {
-    public record GetBasketQuery(string UserName) : IQuery<GetBasketResult>;
-
-    public record GetBasketResult(ShoppingCart Cart);
-
-    public class GetBasketQueryValidator : AbstractValidator<GetBasketQuery>
+    public GetBasketQueryValidator()
     {
-        public GetBasketQueryValidator()
-        {
-            RuleFor(model => model.UserName)
-                .NotEmpty()
-                .NotNull()
-                .WithMessage("UserName is required");
-        }
+        RuleFor(model => model.UserName)
+            .NotEmpty()
+            .NotNull()
+            .WithMessage("UserName is required");
     }
+}
 
-    internal class GetBasketQueryHandler
-        (IBasketRepository basketRepository)
-        : IQueryHandler<GetBasketQuery, GetBasketResult>
+internal class GetBasketQueryHandler
+    (IBasketRepository basketRepository)
+    : IQueryHandler<GetBasketQuery, GetBasketResult>
+{
+    public async Task<GetBasketResult> Handle(GetBasketQuery query, CancellationToken cancellationToken)
     {
-        public async Task<GetBasketResult> Handle(GetBasketQuery query, CancellationToken cancellationToken)
+        var result = await basketRepository.Get(query.UserName);
+
+        if (result is null)
         {
-            var result = await basketRepository.Get(query.UserName);
-
-            if(result is null)
-            {
-                throw new BasketNotFoundException(query.UserName);
-            }
-
-            return new GetBasketResult(result);
+            throw new BasketNotFoundException(query.UserName);
         }
+
+        return new GetBasketResult(result);
     }
 }

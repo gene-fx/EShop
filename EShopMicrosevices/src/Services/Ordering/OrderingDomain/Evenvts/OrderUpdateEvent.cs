@@ -1,4 +1,3 @@
-﻿namespace OrderingDomain.Evenvts
-{
-    public record OrderUpdateEvent(Order order) : IDomainEvent;
-}
+﻿namespace OrderingDomain.Evenvts;
+
+public record OrderUpdateEvent(Order order) : IDomainEvent;

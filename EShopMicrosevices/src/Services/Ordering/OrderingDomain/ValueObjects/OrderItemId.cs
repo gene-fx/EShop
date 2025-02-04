@@ -1,21 +1,20 @@
-﻿namespace OrderingDomain.ValueObjects
+﻿namespace OrderingDomain.ValueObjects;
+
+public record OrderItemId
 {
-    public record OrderItemId
+    public Guid Value { get; }
+
+    private OrderItemId(Guid value) => Value = value;
+
+    public static OrderItemId Of(Guid value)
     {
-        public Guid Value { get; }
+        ArgumentNullException.ThrowIfNull(value);
 
-        private OrderItemId(Guid value) => Value = value;
-
-        public static OrderItemId Of(Guid value)
+        if (value == Guid.Empty)
         {
-            ArgumentNullException.ThrowIfNull(value);
-
-            if(value == Guid.Empty)
-            {
-                throw new DomainException("OrderItemId cannot be empty");
-            }
-
-            return new OrderItemId(value);
+            throw new DomainException("OrderItemId cannot be empty");
         }
+
+        return new OrderItemId(value);
     }
 }

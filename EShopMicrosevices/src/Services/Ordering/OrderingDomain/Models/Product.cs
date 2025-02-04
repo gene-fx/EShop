@@ -1,23 +1,22 @@
-﻿namespace OrderingDomain.Models
+﻿namespace OrderingDomain.Models;
+
+public class Product : Entity<ProductId>
 {
-    public class Product : Entity<ProductId>
+    public string Name { get; private set; } = default!;
+
+    public decimal Price { get; private set; } = default!;
+
+    public static Product Create(ProductId id, string name, decimal price)
     {
-        public string Name { get; private set; } = default!;
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
 
-        public decimal Price { get; private set; } = default!;
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(price);
 
-        public static Product Create(ProductId id, string name, decimal price)
+        return new Product
         {
-            ArgumentException.ThrowIfNullOrWhiteSpace(name);
-
-            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(price);
-
-            return new Product
-            {
-                Id = id,
-                Name = name,
-                Price = price
-            };
-        }
+            Id = id,
+            Name = name,
+            Price = price
+        };
     }
 }

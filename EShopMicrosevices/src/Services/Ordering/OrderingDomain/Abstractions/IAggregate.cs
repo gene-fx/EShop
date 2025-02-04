@@ -1,14 +1,13 @@
-﻿namespace OrderingDomain.Abstractions
+﻿namespace OrderingDomain.Abstractions;
+
+public interface IAggregate<T> : IAggregate, IEntity<T>
 {
-    public interface IAggregate<T> : IAggregate, IEntity<T>
-    {
 
-    }
+}
 
-    public interface IAggregate : IEntity
-    {
-        IReadOnlyList<IDomainEvent> DomainEvents { get; }
+public interface IAggregate : IEntity
+{
+    IReadOnlyList<IDomainEvent> DomainEvents { get; }
 
-        IDomainEvent[] ClearDomainEvents();
-    }
+    IDomainEvent[] ClearDomainEvents();
 }

@@ -1,21 +1,20 @@
 ﻿using OrderingInfrastructure.Data.Interceptors;
 
-namespace OrderingInfrastructure
+namespace OrderingInfrastructure;
+
+public static class DependencyInjection
 {
-    public static class DependencyInjection
+    public static IServiceCollection AddInfrastructureServices
+        (this IServiceCollection services, IConfiguration configuration)
     {
-        public static IServiceCollection AddInfrastructureServices
-            (this IServiceCollection services, IConfiguration configuration)
+        services.AddDbContext<ApplicationDbContext>(x =>
         {
-            services.AddDbContext<ApplicationDbContext>(x =>
-            {
-                x.AddInterceptors(new AuditableEntityInterceptor());
-                x.UseSqlServer(configuration.GetConnectionString("Database")!);
-            });
+            x.AddInterceptors(new AuditableEntityInterceptor());
+            x.UseSqlServer(configuration.GetConnectionString("Database")!);
+        });
 
-            services.AddScoped<ApplicationDbContext>();
+        services.AddScoped<ApplicationDbContext>();
 
-            return services;
-        }
+        return services;
     }
 }

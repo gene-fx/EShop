@@ -1,13 +1,12 @@
 ﻿using MediatR;
 
-namespace OrderingDomain.Abstractions
+namespace OrderingDomain.Abstractions;
+
+public interface IDomainEvent : INotification
 {
-    public interface IDomainEvent : INotification
-    {
-        Guid EventId => Guid.NewGuid();
+    Guid EventId => Guid.NewGuid();
 
-        public DateTime OccurredOn => DateTime.UtcNow;
+    public DateTime OccurredOn => DateTime.UtcNow;
 
-        public string? EventType => GetType().AssemblyQualifiedName;
-    }
+    public string? EventType => GetType().AssemblyQualifiedName;
 }

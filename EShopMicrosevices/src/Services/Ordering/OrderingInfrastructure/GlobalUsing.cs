@@ -1,10 +1,12 @@
-﻿global using Microsoft.EntityFrameworkCore;
+﻿global using Microsoft.AspNetCore.Builder;
+global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.ChangeTracking;
 global using Microsoft.EntityFrameworkCore.Diagnostics;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using OrderingDomain.Abstractions;
+global using OrderingDomain.Enums;
 global using OrderingDomain.Models;
 global using OrderingDomain.ValueObjects;
 global using OrderingInfrastructure.Data;

@@ -1,21 +1,20 @@
-﻿namespace BasketAPI.Models
+﻿namespace BasketAPI.Models;
+
+public class ShoppingCart
 {
-    public class ShoppingCart
+    public string UserName { get; set; } = default!;
+
+    public List<ShoppingCartItem> Items { get; set; } = new();
+
+    public decimal TotalPrice => Items.Sum(x => x.Price * x.Quantity);
+
+    public ShoppingCart(string userName)
     {
-        public string UserName { get; set; } = default!;
+        UserName = userName;
+    }
 
-        public List<ShoppingCartItem> Items { get; set; } = new();
-
-        public decimal TotalPrice => Items.Sum(x => x.Price * x.Quantity);
-
-        public ShoppingCart(string userName)
-        {
-            UserName = userName;
-        }
-
-        //required for mapping
-        public ShoppingCart()
-        {
-        }
+    //required for mapping
+    public ShoppingCart()
+    {
     }
 }
