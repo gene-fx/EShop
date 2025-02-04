@@ -38,7 +38,7 @@
     }
 
     public static class Extensions
-    {// it checks with TRUE or FALSE if the Entry has had any kind of 
+    {// it checks with TRUE or FALSE if the Entry has had any kind of modification
         public static bool HasChangeOwnedEntities(this EntityEntry entry) =>
             entry.References.Any(e => e.TargetEntry != null && e.TargetEntry.Metadata.IsOwned() &&
             (e.TargetEntry.State == EntityState.Added || e.TargetEntry.State == EntityState.Modified));
