@@ -25,7 +25,7 @@ public class Order : Aggregate<OrderId>
     }
 
     public static Order Create(OrderId orderId, CustomerId customerId, OrderName orderName,
-        Address shippingAddress, Address bilingAddress, Payment payment)
+        Address shippingAddress, Address billingAddress, Payment payment)
     {
         var order = new Order
         {
@@ -33,7 +33,7 @@ public class Order : Aggregate<OrderId>
             CustomerId = customerId,
             OrderName = orderName,
             ShippingAddress = shippingAddress,
-            BillingAdress = bilingAddress,
+            BillingAdress = billingAddress,
             Payment = payment,
             Status = OrderStatus.Pending,
         };
