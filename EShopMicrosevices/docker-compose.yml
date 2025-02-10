@@ -1,35 +1,42 @@
 version: '3.4'
-
+name: eshop
 services:
   catalogdb:
     image: postgres
+    container_name: eshop_catalogdb
 
   basketdb:
     image: postgres
+    container_name: eshop_basketdb
 
   distributedcache:
     image: redis
+    container_name: eshop_distributedcache
 
   orderdb:
     image: mcr.microsoft.com/mssql/server
+    container_name: eshop_orderdb
 
   catalogapi:
     image: ${DOCKER_REGISTRY-}catalogapi
     build:
       context: .
       dockerfile: src/Services/Catalog/CatalogAPI/Dockerfile
+    container_name: eshop_catalogapi
 
   basketapi:
     image: ${DOCKER_REGISTRY-}basketapi
     build:
       context: .
       dockerfile: src/Services/Basket/BasketAPI/Dockerfile
+    container_name: eshop_basketapi
 
   discountgrpc:
     image: ${DOCKER_REGISTRY-}discountgrpc
     build:
       context: .
       dockerfile: src/Services/Discount/DiscountGrpc/Dockerfile
+    container_name: eshop_discountgrpc
 
 volumes:
   postgres_catalog:

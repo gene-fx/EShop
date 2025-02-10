@@ -1,8 +1,8 @@
 version: '3.4'
-
+name: eshop
 services:
   catalogdb:
-    container_name: catalogdb
+    container_name: eshop_catalogdb
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -14,7 +14,7 @@ services:
       - postgres_catalog:/var/lib/postgresql/data
 
   basketdb:
-    container_name: basketdb
+    container_name: eshop_basketdb
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -26,13 +26,13 @@ services:
       - postgres_basket:/var/lib/postgresql/data/
 
   distributedcache:
-    container_name: distributedcache
+    container_name: eshop_distributedcache
     restart: always
     ports:
      - "6379:6379"
 
   orderdb:
-    container_name: orderdb
+    container_name: eshop_orderdb
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=SwN12345678
@@ -41,6 +41,7 @@ services:
       - "1433:1433"
      
   catalogapi:
+    container_name: eshop_catalogapi
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
@@ -56,6 +57,7 @@ services:
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
   basketapi:
+    container_name: eshop_basketapi
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
@@ -73,6 +75,7 @@ services:
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
   discountgrpc:
+    container_name: eshop_discountgrpc
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080

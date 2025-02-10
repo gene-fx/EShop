@@ -7,10 +7,13 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructureServices
         (this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<ApplicationDbContext>(x =>
+        services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
+
+        services.AddDbContext<ApplicationDbContext>((sp, options) =>
         {
-            x.AddInterceptors(new AuditableEntityInterceptor());
-            x.UseSqlServer(configuration.GetConnectionString("Database")!);
+            options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
+            options.UseSqlServer(configuration.GetConnectionString("Database")!);
         });
 
         services.AddScoped<ApplicationDbContext>();
