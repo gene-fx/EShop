@@ -1,7 +1,4 @@
-﻿using OrderingApplication.Data;
-using OrderingDomain.ValueObjects;
-
-namespace OrderingApplication.Orders.Commands.CreateOrder;
+﻿namespace OrderingApplication.Orders.Commands.CreateOrder;
 
 public class CreateOrderHandler(IApplicationDbContext dbContext)
     : ICommandHandler<CreateOrderCommand, CreateOrderResult>
