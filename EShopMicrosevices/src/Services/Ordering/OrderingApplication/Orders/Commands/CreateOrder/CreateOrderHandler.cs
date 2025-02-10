@@ -43,6 +43,11 @@ public class CreateOrderHandler(IApplicationDbContext dbContext)
             billingAddress: billingAddress,
             payment: Payment.Of(orderDto.Payment.CardName, orderDto.Payment.CardNumber, orderDto.Payment.Expiration, orderDto.Payment.Cvv, orderDto.Payment.PaymentMethod));
 
+        foreach (var item in orderDto.OrderItems)
+        {
+            newOrder.Add(ProductId.Of(item.ProductId), item.Quantity, item.Price);
+        }
+
         return newOrder;
     }
 }
