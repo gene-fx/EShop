@@ -1,8 +1,4 @@
-﻿using MediatR;
-using Microsoft.Extensions.Logging;
-using OrderingDomain.Evenvts;
-
-namespace OrderingApplication.Orders.EventHandler;
+﻿namespace OrderingApplication.Orders.EventHandler;
 public class OrderUpdatedEventHandler(ILogger<OrderUpdatedEventHandler> logger)
     : INotificationHandler<OrderCreatedEvent>
 {
