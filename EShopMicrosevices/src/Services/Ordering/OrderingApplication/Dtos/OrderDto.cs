@@ -8,5 +8,5 @@ public record OrderDto
     AddressDto BillingAddress,
     PaymentDto Payment,
     OrderStatus Status,
-    List<OrderItemDto> OrderItems
+    IReadOnlyList<OrderItemDto> OrderItems
 );
