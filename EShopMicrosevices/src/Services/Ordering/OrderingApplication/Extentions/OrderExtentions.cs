@@ -1,5 +1,5 @@
 ﻿namespace OrderingApplication.Extensions;
-public static class OrderExtions
+public static class OrderExtentions
 {
     public static IReadOnlyCollection<OrderDto> ProjectToOrderDto(this IReadOnlyCollection<Order> orders)
     {
@@ -24,7 +24,7 @@ public static class OrderExtions
                     order.BillingAddress.State,
                     order.BillingAddress.ZipCode),
                 Payment: new PaymentDto(
-                    order.Payment.CardName,
+                    order.Payment.CardName!,
                     order.Payment.CardNumber,
                     order.Payment.Expiration,
                     order.Payment.CVV,
