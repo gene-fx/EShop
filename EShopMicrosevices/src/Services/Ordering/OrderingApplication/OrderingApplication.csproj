@@ -15,8 +15,4 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Orders\Queries\GetOrders\" />
-  </ItemGroup>
-
 </Project>
