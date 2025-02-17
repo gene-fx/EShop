@@ -1,12 +1,12 @@
 ﻿namespace OrderingApplication.Extensions;
 public static class OrderExtions
 {
-    public static IReadOnlyCollection<OrderDto> ProjectToOrderDto(this IReadOnlyCollection<OrderDto> orders)
+    public static IReadOnlyCollection<OrderDto> ProjectToOrderDto(this IReadOnlyCollection<Order> orders)
     {
         return orders.Select(order => new OrderDto(
-                Id: order.Id,
-                CustomerID: order.CustomerID,
-                OrderName: order.OrderName,
+                Id: Guid.Parse(order.Id.ToString()),
+                CustomerID: Guid.Parse(order.CustomerId.ToString()),
+                OrderName: order.OrderName.ToString(),
                 ShippingAddress: new AddressDto(
                     order.ShippingAddress.FirstName,
                     order.ShippingAddress.LastName,
@@ -27,10 +27,11 @@ public static class OrderExtions
                     order.Payment.CardName,
                     order.Payment.CardNumber,
                     order.Payment.Expiration,
-                    order.Payment.Cvv,
+                    order.Payment.CVV,
                     order.Payment.PaymentMethod),
                 Status: order.Status,
-                OrderItems: order.OrderItems.Select(oi => new OrderItemDto(oi.OrderId, oi.ProductId, oi.Quantity, oi.Price)).ToList().AsReadOnly()
+                OrderItems: order.OrderItems.Select(oi =>
+                    new OrderItemDto(Guid.Parse(oi.OrderId.ToString()), Guid.Parse(oi.ProductId.ToString()), oi.Quantity, oi.Price)).ToList().AsReadOnly()
             )).ToList().AsReadOnly();
     }
 }

@@ -12,7 +12,7 @@ public class Order : Aggregate<OrderId>
 
     public Address ShippingAddress { get; private set; } = default!;
 
-    public Address BillingAdress { get; private set; } = default!;
+    public Address BillingAddress { get; private set; } = default!;
 
     public Payment Payment { get; private set; } = default!;
 
@@ -33,7 +33,7 @@ public class Order : Aggregate<OrderId>
             CustomerId = customerId,
             OrderName = orderName,
             ShippingAddress = shippingAddress,
-            BillingAdress = billingAddress,
+            BillingAddress = billingAddress,
             Payment = payment,
             Status = OrderStatus.Pending,
         };
@@ -48,7 +48,7 @@ public class Order : Aggregate<OrderId>
     {
         OrderName = orderName;
         ShippingAddress = shippingAddress;
-        BillingAdress = bilingAddress;
+        BillingAddress = bilingAddress;
         Payment = payment;
         Status = status;
 

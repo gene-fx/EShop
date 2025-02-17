@@ -11,7 +11,7 @@ public class GetOrdersByNameHandler(IApplicationDbContext dbContext)
             .Where(o => o.OrderName.Value.Contains(query.Name))
             .AsNoTracking()
             .ToListAsync()
-            .ContinueWith(result => result.Result as IReadOnlyList<OrderDto>);
+            .ContinueWith(result => result.Result as IReadOnlyList<Order>);
 
         return new GetOrdersByNameResult(orders!.ProjectToOrderDto());
     }

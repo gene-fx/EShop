@@ -60,7 +60,7 @@ public class OrderConfigurations : IEntityTypeConfiguration<Order>
 
         });
 
-        builder.ComplexProperty(order => order.BillingAdress, orderBillingAdress =>
+        builder.ComplexProperty(order => order.BillingAddress, orderBillingAdress =>
         {
             orderBillingAdress.Property(prop => prop.FirstName)
                             .HasMaxLength(50)
