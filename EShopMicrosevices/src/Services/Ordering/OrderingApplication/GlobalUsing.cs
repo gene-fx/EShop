@@ -1,4 +1,5 @@
 ﻿global using BuildingBlocks.CQRS;
+global using FluentValidation;
 global using MediatR;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.DependencyInjection;
@@ -6,6 +7,7 @@ global using Microsoft.Extensions.Logging;
 global using OrderingApplication.Data;
 global using OrderingApplication.Dtos;
 global using OrderingApplication.Exceptions;
+global using OrderingApplication.Extensions;
 global using OrderingDomain.Enums;
 global using OrderingDomain.Evenvts;
 global using OrderingDomain.Models;

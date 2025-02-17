@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace OrderingApplication.Orders.Queries.GetOrdersByCustomer;
+﻿namespace OrderingApplication.Orders.Queries.GetOrdersByCustomer;
 
 public record GetOrdersByCustomerQuery(Guid CustomerId)
     : IQuery<GetOrdersByCustomerResult>;
