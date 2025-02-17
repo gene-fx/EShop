@@ -8,7 +8,9 @@ public class GetOrdersByCustomerHandler(IApplicationDbContext dbContext)
 {
     public async Task<GetOrdersByCustomerResult> Handle(GetOrdersByCustomerQuery query, CancellationToken cancellationToken)
     {
-        var orders = await dbContext.Orders.Where(order => order.CustomerId == CustomerId.Of(query.CustomerId))
+        var orders = await dbContext.Orders
+            .Include(o => o.CustomerId)
+            .Where(order => order.CustomerId == CustomerId.Of(query.CustomerId))
             .AsNoTracking()
             .ToListAsync(cancellationToken)
             .ContinueWith(result => result.Result as IReadOnlyCollection<Order>);
