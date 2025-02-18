@@ -10,9 +10,9 @@ public class DeleteOrder : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/orders/{id}", (Guid id, ISender sender) =>
+        app.MapPost("/orders/{id}", async (Guid id, ISender sender) =>
         {
-            var result = sender.Send(new DeleteOrderCommand(id));
+            var result = await sender.Send(new DeleteOrderCommand(id));
 
             return Results.Ok(result.Adapt<DeleteOrderResponse>());
         })
