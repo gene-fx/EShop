@@ -12,11 +12,11 @@ public class GetOrdersHandler(IApplicationDbContext dbContext)
             .Include(o => o.OrderItems)
             .OrderBy(o => o.OrderName.Value)
             .Skip(query.PaginationRequest.PageSize * query.PaginationRequest.PageIndex)
-            .ToListAsync()
-            .ContinueWith(o => o as IReadOnlyCollection<Order>);
+            .ToListAsync(cancellationToken);
+        //.ContinueWith(o => o as IReadOnlyCollection<Order>);
 
         return new GetOrdersResult(
-            new BuildingBlocks.Pgination.PaginatedResult<OrderDto>(
+            new BuildingBlocks.Pagination.PaginatedResult<OrderDto>(
                 query.PaginationRequest.PageIndex,
                 query.PaginationRequest.PageSize,
                 totalCount,

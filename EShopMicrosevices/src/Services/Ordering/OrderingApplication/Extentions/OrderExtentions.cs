@@ -4,9 +4,9 @@ public static class OrderExtentions
     public static IReadOnlyCollection<OrderDto> ProjectToOrderDto(this IReadOnlyCollection<Order> orders)
     {
         return orders.Select(order => new OrderDto(
-                Id: Guid.Parse(order.Id.ToString()),
-                CustomerID: Guid.Parse(order.CustomerId.ToString()),
-                OrderName: order.OrderName.ToString(),
+                Id: order.Id.Value,
+                CustomerID: order.CustomerId.Value,
+                OrderName: order.OrderName.Value,
                 ShippingAddress: new AddressDto(
                     order.ShippingAddress.FirstName,
                     order.ShippingAddress.LastName,
@@ -24,14 +24,14 @@ public static class OrderExtentions
                     order.BillingAddress.State,
                     order.BillingAddress.ZipCode),
                 Payment: new PaymentDto(
-                    order.Payment.CardName!,
+                    order.Payment.CardName,
                     order.Payment.CardNumber,
                     order.Payment.Expiration,
                     order.Payment.CVV,
                     order.Payment.PaymentMethod),
                 Status: order.Status,
                 OrderItems: order.OrderItems.Select(oi =>
-                    new OrderItemDto(Guid.Parse(oi.OrderId.ToString()), Guid.Parse(oi.ProductId.ToString()), oi.Quantity, oi.Price)).ToList().AsReadOnly()
+                    new OrderItemDto(oi.OrderId.Value, oi.ProductId.Value, oi.Quantity, oi.Price)).ToList().AsReadOnly()
             )).ToList().AsReadOnly();
     }
 }

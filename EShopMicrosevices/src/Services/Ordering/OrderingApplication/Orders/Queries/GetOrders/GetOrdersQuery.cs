@@ -1,4 +1,4 @@
-﻿using BuildingBlocks.Pgination;
+﻿using BuildingBlocks.Pagination;
 
 namespace OrderingApplication.Orders.Queries.GetOrders;
 public record GetOrdersQuery(PaginationRequest PaginationRequest)
