@@ -17,7 +17,6 @@ public class DeleteOrder : ICarterModule
             return Results.Ok(result.Adapt<DeleteOrderResponse>());
         })
         .WithName("DeleteOrder")
-        .Accepts<Guid>("Accepts the Order ID")
         .Produces<DeleteOrderResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .ProducesProblem(StatusCodes.Status404NotFound)
