@@ -2,7 +2,7 @@
 public record OrderDto
 (
     Guid Id,
-    Guid CustomerID,
+    Guid CustomerId,
     string OrderName,
     AddressDto ShippingAddress,
     AddressDto BillingAddress,

@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace OrderingApplication.Orders.Commands.CreateOrder;
+﻿namespace OrderingApplication.Orders.Commands.CreateOrder;
 
 public record CreateOrderCommand(OrderDto Order)
     : ICommand<CreateOrderResult>;
@@ -14,7 +12,7 @@ public class CreateOrderCommandValidator
     public CreateOrderCommandValidator()
     {
         RuleFor(x => x.Order.OrderName).NotEmpty().WithMessage("OrderName is Required");
-        RuleFor(x => x.Order.CustomerID).NotEmpty().WithMessage("OrderCustomerID is Required");
+        RuleFor(x => x.Order.CustomerId).NotEmpty().WithMessage("OrderCustomerID is Required");
         RuleFor(x => x.Order.OrderItems).NotEmpty().WithMessage("OrderItems should not be empty");
     }
 }

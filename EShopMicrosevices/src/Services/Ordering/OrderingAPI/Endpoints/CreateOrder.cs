@@ -19,7 +19,6 @@ public class CreateOrder : ICarterModule
             return Results.Created($"/oreders/{response.Id}", response);
         })
         .WithName("CreateOrder")
-        .Accepts<CreateOrderRequest>("CreateOrderRequest object - Order")
         .Produces<CreateOrderResponse>(StatusCodes.Status201Created)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Create Order");
