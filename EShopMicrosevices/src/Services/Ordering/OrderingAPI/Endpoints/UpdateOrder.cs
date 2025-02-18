@@ -12,7 +12,9 @@ public class UpdateOrder : ICarterModule
     {
         app.MapPut("/orders", async (UpdateOrderRequest request, ISender sender) =>
         {
-            var result = await sender.Send(request.Adapt<UpdateOrderCommand>());
+            var command = request.Adapt<UpdateOrderCommand>();
+
+            var result = await sender.Send(command);
 
             return Results.Ok(result.Adapt<UpdateOrderResponse>());
         })

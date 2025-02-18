@@ -4,7 +4,7 @@ public static class OrderExtentions
     public static IReadOnlyCollection<OrderDto> ProjectToOrderDto(this IReadOnlyCollection<Order> orders)
     {
         return orders.Select(order => new OrderDto(
-                Id: order.Id.Value,
+                OrderId: order.Id.Value,
                 CustomerId: order.CustomerId.Value,
                 OrderName: order.OrderName.Value,
                 ShippingAddress: new AddressDto(

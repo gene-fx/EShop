@@ -4,11 +4,11 @@ public class UpdateOrderHandler(IApplicationDbContext dbContext)
 {
     public async Task<UpdateOrderResult> Handle(UpdateOrderCommand command, CancellationToken cancellationToken)
     {
-        var order = await dbContext.Orders.FindAsync([OrderId.Of(command.Order.Id)], cancellationToken);
+        var order = await dbContext.Orders.FindAsync([OrderId.Of(command.Order.OrderId)], cancellationToken);
 
         if (order is null)
         {
-            throw new OrderNotFoundException(command.Order.Id);
+            throw new OrderNotFoundException(command.Order.OrderId);
         }
 
         UpdateOrderWithNewValues(order, command.Order);
@@ -24,7 +24,7 @@ public class UpdateOrderHandler(IApplicationDbContext dbContext)
     {
         if (order is null || orderDto is null)
         {
-            throw new ArgumentNullException(order is null ? order.Id.ToString() : orderDto.Id.ToString());
+            throw new ArgumentNullException(order is null ? order.Id.ToString() : orderDto.OrderId.ToString());
         }
 
         var updatedShippingAddress =
@@ -43,7 +43,7 @@ public class UpdateOrderHandler(IApplicationDbContext dbContext)
                         orderDto.BillingAddress.AddressLine,
                         orderDto.BillingAddress.Country,
                         orderDto.BillingAddress.State,
-                        orderDto.ShippingAddress.ZipCode);
+                        orderDto.BillingAddress.ZipCode);
 
         var updatedPayment =
             Payment.Of(orderDto.Payment.CardName,

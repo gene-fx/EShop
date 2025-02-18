@@ -1,7 +1,7 @@
 ﻿namespace OrderingApplication.Dtos;
 public record OrderDto
 (
-    Guid Id,
+    Guid OrderId,
     Guid CustomerId,
     string OrderName,
     AddressDto ShippingAddress,
