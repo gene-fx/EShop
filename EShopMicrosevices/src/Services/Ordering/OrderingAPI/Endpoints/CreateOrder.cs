@@ -1,4 +1,6 @@
-﻿namespace OrderingAPI.Endpoints;
+﻿using OrderingApplication.Orders.Commands.CreateOrder;
+
+namespace OrderingAPI.Endpoints;
 
 public record CreateOrderRequest(OrderDto Order);
 
