@@ -17,7 +17,6 @@ public class UpdateOrder : ICarterModule
             return Results.Ok(result.Adapt<UpdateOrderResponse>());
         })
         .WithName("UpdateOrder")
-        .Accepts<UpdateOrderRequest>("Accepts the Order model to update")
         .Produces<UpdateOrderResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("UpdateOrder");
