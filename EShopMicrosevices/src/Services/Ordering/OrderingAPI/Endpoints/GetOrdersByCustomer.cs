@@ -18,7 +18,6 @@ public class GetOrdersByCustomer : ICarterModule
             return Results.Ok(result.Adapt<GetOrdersByCustomerResponse>());
         })
         .WithName("GetOrdersByCustomer")
-        .Accepts<Guid>("Accepts the Customer ID")
         .Produces<GetOrdersByCustomerResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Get Orders By Customer ID");
