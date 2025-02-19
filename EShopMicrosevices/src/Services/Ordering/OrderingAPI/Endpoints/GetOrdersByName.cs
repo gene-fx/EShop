@@ -17,7 +17,6 @@ public class GetOrdersByName : ICarterModule
             return Results.Ok(result.Adapt<GetOrdersByMameResponse>());
         })
         .WithName("GetOredersByName")
-        .Accepts<string>("Accepts the Order Name")
         .Produces<GetOrdersByMameResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .ProducesProblem(StatusCodes.Status404NotFound)

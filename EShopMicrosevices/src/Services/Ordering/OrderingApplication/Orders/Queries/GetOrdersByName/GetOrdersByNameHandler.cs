@@ -8,8 +8,7 @@ public class GetOrdersByNameHandler(IApplicationDbContext dbContext)
             .Include(o => o.OrderItems)
             .Where(o => o.OrderName.Value.Contains(query.Name))
             .AsNoTracking()
-            .ToListAsync()
-            .ContinueWith(result => result.Result as IReadOnlyList<Order>);
+            .ToListAsync();
 
         return new GetOrdersByNameResult(orders!.ProjectToOrderDto());
     }
