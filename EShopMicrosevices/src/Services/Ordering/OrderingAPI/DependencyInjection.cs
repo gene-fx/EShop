@@ -10,6 +10,8 @@ public static class DependencyInjection
 
         services.AddExceptionHandler<CustomExceptionHandler>();
 
+        services.AddHealthChecks();
+
         return services;
     }
 
@@ -18,6 +20,8 @@ public static class DependencyInjection
         webApplication.MapCarter();
 
         webApplication.UseExceptionHandler(options => {/*emapty*/ });
+
+        webApplication.UseHealthChecks("/health");
 
         return webApplication;
     }
