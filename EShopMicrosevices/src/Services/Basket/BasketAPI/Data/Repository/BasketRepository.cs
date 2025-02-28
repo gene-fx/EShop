@@ -10,7 +10,7 @@ public class BasketRepository
     {
         _session = session;
     }
-    public async Task<ShoppingCart?> Get(string userName)
+    public async Task<ShoppingCart?> Get(string userName, CancellationToken? cancellationToken)
     {
         return await _session.LoadAsync<ShoppingCart>(userName);
     }
