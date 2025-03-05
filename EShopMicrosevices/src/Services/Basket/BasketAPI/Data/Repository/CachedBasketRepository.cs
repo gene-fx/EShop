@@ -5,14 +5,14 @@ public class CachedBasketRepository
     IDistributedCache cache)
     : IBasketRepository
 {
-    public async Task<ShoppingCart> Get(string userName)
+    public async Task<ShoppingCart> Get(string userName, CancellationToken? cancellationToken)
     {
         if (await cache.GetAsync(userName) is not null)
         {
             return JsonSerializer.Deserialize<ShoppingCart>(await cache.GetAsync(userName))!;
         }
 
-        var basket = await basketRepository.Get(userName);
+        var basket = await basketRepository.Get(userName, cancellationToken);
 
         await cache.SetStringAsync(userName, JsonSerializer.Serialize(basket));
 

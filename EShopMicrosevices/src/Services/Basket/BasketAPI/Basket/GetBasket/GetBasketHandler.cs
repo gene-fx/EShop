@@ -21,7 +21,7 @@ internal class GetBasketQueryHandler
 {
     public async Task<GetBasketResult> Handle(GetBasketQuery query, CancellationToken cancellationToken)
     {
-        var result = await basketRepository.Get(query.UserName);
+        var result = await basketRepository.Get(query.UserName, cancellationToken);
 
         if (result is null)
         {

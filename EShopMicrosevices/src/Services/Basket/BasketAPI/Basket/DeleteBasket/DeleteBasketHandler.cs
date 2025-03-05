@@ -36,7 +36,7 @@ internal class DeleteBasketCommandHandler
 
         var basketRepository = scope.ServiceProvider.GetRequiredService<IBasketRepository>();
 
-        if (await basketRepository.Get(command.UserName) is null)
+        if (await basketRepository.Get(command.UserName, cancellationToken) is null)
         {
             throw new BasketNotFoundException(command.UserName);
         }

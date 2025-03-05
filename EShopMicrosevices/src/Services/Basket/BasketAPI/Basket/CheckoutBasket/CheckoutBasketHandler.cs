@@ -26,7 +26,7 @@ public class CheckoutBasketHandler(IBasketRepository repository, IPublishEndpoin
 {
     public async Task<CheckoutBasketResult> Handle(CheckoutBasketCommand command, CancellationToken cancellationToken)
     {
-        var basket = await repository.Get(command.BasketCheckout.UserName);
+        var basket = await repository.Get(command.BasketCheckout.UserName, cancellationToken);
 
         if (basket == null) return new CheckoutBasketResult(false);
 
