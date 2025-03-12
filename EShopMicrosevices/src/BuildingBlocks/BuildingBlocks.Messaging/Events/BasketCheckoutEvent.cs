@@ -40,5 +40,9 @@ public record BasketCheckoutEvent : IntegrationEvent
     public string CVV { get; set; } = default!;
 
     public int PaymentMethod { get; set; } = default!;
+
+    //Items
+
+    public IEnumerable<object> Items { get; set; }
 }
 

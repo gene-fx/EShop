@@ -40,4 +40,8 @@ public class BasketCheckoutDto
     public string CVV { get; set; } = default!;
 
     public int PaymentMethod { get; set; } = default!;
+
+    //Items
+
+    public IEnumerable<ShoppingCartItem> Items { get; set; } = new List<ShoppingCartItem>();
 }
