@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Messaging.Events;
+using Mapster;
 using MassTransit;
 using OrderingApplication.Orders.Commands.CreateOrder;
 
@@ -7,11 +8,13 @@ public class BasketCheckoutEventHandler
     (ISender sender, ILogger<BasketCheckoutEventHandler> logger)
     : IConsumer<BasketCheckoutEvent>
 {
-    public Task Consume(ConsumeContext<BasketCheckoutEvent> context)
+    public async Task Consume(ConsumeContext<BasketCheckoutEvent> context)
     {
         logger.LogInformation("BasketCheckoutIntegrationEvent consumed: {BasketCheckoutEvent}", context.Message.GetType().Name);
 
+        CreateOrderCommand createOrderCommand = MapToOrderCommand(context.Message);
 
+        await sender.Send(createOrderCommand);
 
         throw new NotImplementedException();
     }
@@ -31,16 +34,23 @@ public class BasketCheckoutEventHandler
 
         var orderItems = new List<OrderItemDto>();
 
-        var orderDto = new OrderDto(orderId, basketCheckoutEvent.CustomerId,
-            basketCheckoutEvent.TotalPrice, addressDto, paymentDto, OrderingDomain.Enums.OrderStatus.Pending,
-            []);
-
-        foreach (var item in basketCheckoutEvent.)
+        foreach (var item in basketCheckoutEvent.Items)
         {
-
+            OrderItemDto orderItem = item.Adapt<OrderItemDto>();
+            orderItems.Add(orderItem);
         }
 
+        var orderDto = new OrderDto(
+            OrderId: orderId,
+            CustomerId: basketCheckoutEvent.CustomerId,
+            OrderName: basketCheckoutEvent.UserName,
+            ShippingAddress: addressDto,
+            BillingAddress: addressDto,
+            Payment: paymentDto,
+            Status: OrderingDomain.Enums.OrderStatus.Pending,
+            OrderItems: orderItems.AsReadOnly()
+            );
 
-        return new CreateOrderCommand();
+        return new CreateOrderCommand(orderDto);
     }
 }
