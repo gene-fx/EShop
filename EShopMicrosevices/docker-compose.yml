@@ -17,6 +17,10 @@ services:
     image: mcr.microsoft.com/mssql/server
     container_name: eshop_orderdb
 
+  messagebroker:
+    image: rabbitmq:management
+    container_name: eshop_messagebroker
+
   catalogapi:
     image: ${DOCKER_REGISTRY-}catalogapi
     build:
