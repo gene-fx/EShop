@@ -1,5 +1,4 @@
 ﻿using BuildingBlocks.Messaging.Events;
-using Mapster;
 using MassTransit;
 using OrderingApplication.Orders.Commands.CreateOrder;
 
@@ -15,8 +14,6 @@ public class BasketCheckoutEventHandler
         CreateOrderCommand createOrderCommand = MapToOrderCommand(context.Message);
 
         await sender.Send(createOrderCommand);
-
-        throw new NotImplementedException();
     }
 
     private CreateOrderCommand MapToOrderCommand(BasketCheckoutEvent basketCheckoutEvent)
@@ -30,18 +27,20 @@ public class BasketCheckoutEventHandler
             basketCheckoutEvent.CardNumber, basketCheckoutEvent.Expiration,
             basketCheckoutEvent.CVV, basketCheckoutEvent.PaymentMethod);
 
-        var orderId = Guid.NewGuid();
-
         var orderItems = new List<OrderItemDto>();
 
         foreach (var item in basketCheckoutEvent.Items)
         {
-            OrderItemDto orderItem = item.Adapt<OrderItemDto>();
-            orderItems.Add(orderItem);
+            Guid productId = (Guid)item.GetType().GetProperty("ProductId")!.GetValue(item, null)!;
+            Guid orderId = (Guid)item.GetType().GetProperty("OrderId")!.GetValue(item, null)!;
+            decimal price = (decimal)item.GetType().GetProperty("Price")!.GetValue(item, null)!;
+            int quantity = (int)item.GetType().GetProperty("Quantity")!.GetValue(item, null)!;
+
+            orderItems.Add(new OrderItemDto(orderId, productId, quantity, price));
         }
 
         var orderDto = new OrderDto(
-            OrderId: orderId,
+            OrderId: Guid.NewGuid(),
             CustomerId: basketCheckoutEvent.CustomerId,
             OrderName: basketCheckoutEvent.UserName,
             ShippingAddress: addressDto,

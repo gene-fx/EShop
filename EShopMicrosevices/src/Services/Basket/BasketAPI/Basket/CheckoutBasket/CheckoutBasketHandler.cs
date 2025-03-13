@@ -1,5 +1,4 @@
 ﻿using BuildingBlocks.Messaging.Events;
-using JasperFx.Core;
 using MassTransit;
 
 namespace BasketAPI.Basket.CheckoutBasket;
@@ -33,19 +32,20 @@ public class CheckoutBasketHandler(IBasketRepository repository, IPublishEndpoin
 
         var eventMessage = command.BasketCheckout.Adapt<BasketCheckoutEvent>();
 
-        eventMessage.Items = new List<ShoppingCartItem>();
+        eventMessage.Items = command.BasketCheckout.Items.Select(item => item.Adapt<ShoppingCartItem>()).ToList();
+        //new List<ShoppingCartItem>();
 
-        foreach (var item in basket.Items)
-        {
-            eventMessage.Items.Append(new ShoppingCartItem
-            {
-                Color = item.Color,
-                Price = item.Price,
-                ProductId = item.ProductId,
-                ProductName = item.ProductName,
-                Quantity = item.Quantity
-            });
-        }
+        //foreach (var item in basket.Items)
+        //{
+        //    eventMessage.Items.Append(new ShoppingCartItem
+        //    {
+        //        Color = item.Color,
+        //        Price = item.Price,
+        //        ProductId = item.ProductId,
+        //        ProductName = item.ProductName,
+        //        Quantity = item.Quantity
+        //    });
+        //}
 
         eventMessage.TotalPrice = basket.TotalPrice;
 
