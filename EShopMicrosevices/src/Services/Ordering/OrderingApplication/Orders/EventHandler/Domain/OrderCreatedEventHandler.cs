@@ -1,9 +1,11 @@
 ﻿using MassTransit;
+using Microsoft.FeatureManagement;
 
 namespace OrderingApplication.Orders.EventHandler.Domain;
 
 public class OrderCreatedEventHandler(
     IPublishEndpoint publishEndpoint,
+    IFeatureManager featureManager,
     ILogger<OrderCreatedEventHandler> logger)
     : INotificationHandler<OrderCreatedEvent>
 {
@@ -11,8 +13,11 @@ public class OrderCreatedEventHandler(
     {
         logger.LogInformation("Domain Event handled: {DomainEvent}", domainEvent.GetType().Name);
 
-        var orderCreatedIntegrationEvent = domainEvent.order.ToOrderDto();
+        if (await featureManager.IsEnabledAsync("OrderFullfilment"))
+        {
+            var orderCreatedIntegrationEvent = domainEvent.order.ToOrderDto();
 
-        await publishEndpoint.Publish(orderCreatedIntegrationEvent, cancellationToken);
+            await publishEndpoint.Publish(orderCreatedIntegrationEvent, cancellationToken);
+        }
     }
 }

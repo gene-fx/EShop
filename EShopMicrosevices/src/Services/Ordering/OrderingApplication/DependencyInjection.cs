@@ -1,6 +1,7 @@
 ﻿using BuildingBlocks.Behaviors;
 using BuildingBlocks.Messaging.MassTransit;
 using Microsoft.Extensions.Configuration;
+using Microsoft.FeatureManagement;
 
 namespace OrderingApplication;
 
@@ -15,6 +16,8 @@ public static class DependencyInjection
             x.AddOpenBehavior(typeof(ValidationBehavior<,>));
             x.AddOpenBehavior(typeof(LoggingBehavior<,>));
         });
+
+        services.AddFeatureManagement();
 
         services.AddMessageBroker(configuration, Assembly.GetExecutingAssembly());
 
