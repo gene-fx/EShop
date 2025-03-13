@@ -1,7 +1,7 @@
 ﻿namespace OrderingApplication.Extensions;
 public static class OrderExtentions
 {
-    public static IReadOnlyCollection<OrderDto> ProjectToOrderDto(this IReadOnlyCollection<Order> orders)
+    public static IReadOnlyCollection<OrderDto> ProjectToOrderDto(this IEnumerable<Order> orders)
     {
         return orders.Select(order => new OrderDto(
                 OrderId: order.Id.Value,
