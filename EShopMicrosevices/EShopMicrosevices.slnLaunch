@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "BasketApiAndDiscountGrpc",
+    "Projects": [
+      {
+        "Path": "src\\Services\\Basket\\BasketAPI\\BasketAPI.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Services\\Discount\\DiscountGrpc\\DiscountGrpc.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

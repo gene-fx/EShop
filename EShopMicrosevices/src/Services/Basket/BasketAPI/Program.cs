@@ -16,7 +16,6 @@ builder.Services.AddMediatR(config =>
     config.AddOpenBehavior(typeof(ValidationBehavior<,>));
     config.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
-builder.Services.AddMessageBroker(builder.Configuration);
 
 //! Data services
 builder.Services.AddMarten(opts =>
@@ -47,6 +46,9 @@ builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(
 
         return handler;
     });
+
+//Async Communication with RabbitMQ
+builder.Services.AddMessageBroker(builder.Configuration);
 
 //! Cross-Cutting services
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();

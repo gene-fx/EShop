@@ -1,5 +1,4 @@
-﻿
-namespace OrderingApplication.Orders.Queries.GetOrders;
+﻿namespace OrderingApplication.Orders.Queries.GetOrders;
 
 public class GetOrdersHandler(IApplicationDbContext dbContext)
     : IQueryHandler<GetOrdersQuery, GetOrdersResult>
