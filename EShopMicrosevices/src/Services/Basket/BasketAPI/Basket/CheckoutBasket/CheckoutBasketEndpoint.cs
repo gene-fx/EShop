@@ -1,4 +1,6 @@
-﻿namespace BasketAPI.Basket.CheckoutBasket;
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace BasketAPI.Basket.CheckoutBasket;
 
 public record CheckoutBasketRequest(BasketCheckoutDto BasketCheckout);
 
@@ -8,7 +10,7 @@ public class CheckoutBasketEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/basket/checkout", async (CheckoutBasketRequest request, ISender sender) =>
+        app.MapPost("/basket/checkout", async ([FromBody] CheckoutBasketRequest request, ISender sender) =>
         {
             var command = request.Adapt<CheckoutBasketCommand>();
 

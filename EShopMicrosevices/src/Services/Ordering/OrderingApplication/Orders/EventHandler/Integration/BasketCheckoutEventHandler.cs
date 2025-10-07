@@ -1,6 +1,7 @@
 ﻿using BuildingBlocks.Messaging.Events;
 using MassTransit;
 using OrderingApplication.Orders.Commands.CreateOrder;
+using System.Text.Json;
 
 namespace OrderingApplication.Orders.EventHandler.Integration;
 public class BasketCheckoutEventHandler
@@ -29,18 +30,19 @@ public class BasketCheckoutEventHandler
 
         var orderItems = new List<OrderItemDto>();
 
-        foreach (var item in basketCheckoutEvent.Items)
-        {
-            Guid productId = (Guid)item.GetType().GetProperty("ProductId")!.GetValue(item, null)!;
-            Guid orderId = (Guid)item.GetType().GetProperty("OrderId")!.GetValue(item, null)!;
-            decimal price = (decimal)item.GetType().GetProperty("Price")!.GetValue(item, null)!;
-            int quantity = (int)item.GetType().GetProperty("Quantity")!.GetValue(item, null)!;
+        Guid orderId = Guid.NewGuid();
 
+        foreach (JsonElement item in basketCheckoutEvent.Items)
+        {
+            Guid productId = item.GetProperty("productId").GetGuid();
+            string productName = item.GetProperty("productName").GetString()!;
+            int quantity = item.GetProperty("quantity").GetInt32();
+            decimal price = Decimal.Parse(item.GetProperty("price").ToString());
             orderItems.Add(new OrderItemDto(orderId, productId, quantity, price));
         }
 
         var orderDto = new OrderDto(
-            OrderId: Guid.NewGuid(),
+            OrderId: orderId,
             CustomerId: basketCheckoutEvent.CustomerId,
             OrderName: basketCheckoutEvent.UserName,
             ShippingAddress: addressDto,
@@ -50,6 +52,8 @@ public class BasketCheckoutEventHandler
             OrderItems: orderItems.AsReadOnly()
             );
 
+
         return new CreateOrderCommand(orderDto);
     }
 }
+

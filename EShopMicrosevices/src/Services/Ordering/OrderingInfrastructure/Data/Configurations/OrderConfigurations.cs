@@ -87,7 +87,6 @@ public class OrderConfigurations : IEntityTypeConfiguration<Order>
                             .IsRequired();
 
             orderBillingAdress.Property(prop => prop.ZipCode)
-                            .HasMaxLength(5)
                             .IsRequired();
         });
 
