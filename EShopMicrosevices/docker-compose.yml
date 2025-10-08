@@ -42,8 +42,15 @@ services:
       dockerfile: src/Services/Discount/DiscountGrpc/Dockerfile
     container_name: eshop_discountgrpc
 
+  orderingapi:
+    image: ${DOCKER_REGISTRY-}orderingapi
+    build:
+      context: .
+      dockerfile: src/Services/Ordering/OrderingAPI/Dockerfile
+
 volumes:
   postgres_catalog:
   postgres_basket:
+
 
 
