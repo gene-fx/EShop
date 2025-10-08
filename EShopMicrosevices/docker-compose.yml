@@ -47,6 +47,7 @@ services:
     build:
       context: .
       dockerfile: src/Services/Ordering/OrderingAPI/Dockerfile
+    container_name: eshop_orderingapi
 
 volumes:
   postgres_catalog:
