@@ -9,7 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 //! Application services
 var assembly = typeof(Program).Assembly;
-builder.Services.AddCarter();
+
+Console.WriteLine("PROXIMO PASSO ADICIONAR CARTER NOS SERFVIÇOS DO CONTAINER");
+builder.Services.AddCarter(
+    );
+
 builder.Services.AddMediatR(config =>
 {
     config.RegisterServicesFromAssembly(assembly);
@@ -57,9 +61,20 @@ builder.Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionString("Postgres")!)
     .AddRedis(builder.Configuration.GetConnectionString("Redis")!);
 
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseCors("AllowAll");
 app.MapCarter();
 app.UseExceptionHandler(options => { });
 app.UseHealthChecks("/health",
