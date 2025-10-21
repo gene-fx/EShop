@@ -1,5 +1,6 @@
 using BuildingBlocks.Messaging.MassTransit;
 using Discount.Grpc;
+using FastEndpoints;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
@@ -10,9 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 //! Application services
 var assembly = typeof(Program).Assembly;
 
-Console.WriteLine("PROXIMO PASSO ADICIONAR CARTER NOS SERFVIÇOS DO CONTAINER");
-builder.Services.AddCarter(
-    );
+builder.Services.AddFastEndpoints();
+//builder.Services.AddCarter();
 
 builder.Services.AddMediatR(config =>
 {
@@ -75,7 +75,8 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseCors("AllowAll");
-app.MapCarter();
+app.UseFastEndpoints();
+//app.MapCarter();
 app.UseExceptionHandler(options => { });
 app.UseHealthChecks("/health",
     new HealthCheckOptions
