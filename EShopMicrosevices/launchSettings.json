@@ -8,7 +8,8 @@
         "catalogapi": "StartDebugging",
         "basketapi": "StartDebugging",
         "discountgrpc": "StartDebugging",
-        "orderingapi": "StartDebugging"
+        "orderingapi": "StartDebugging",
+        "yarpapigateway": "StartDebugging"
       }
     }
   }

@@ -1,4 +1,3 @@
-version: '3.4'
 name: eshop
 services:
   catalogdb:
@@ -49,9 +48,17 @@ services:
       dockerfile: src/Services/Ordering/OrderingAPI/Dockerfile
     container_name: eshop_orderingapi
 
+  yarpapigateway:
+    image: ${DOCKER_REGISTRY-}yarpapigateway
+    build:
+      context: .
+      dockerfile: src/ApiGateways/YarpApiGateway/Dockerfile
+    container_name: eshop_yarpapigateway
+
 volumes:
   postgres_catalog:
   postgres_basket:
+
 
 
 
