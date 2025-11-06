@@ -1,4 +1,6 @@
-﻿namespace OrderingApplication.Orders.Commands.CreateOrder;
+﻿using BuildingBlocks.Exceptions;
+
+namespace OrderingApplication.Orders.Commands.CreateOrder;
 
 public class CreateOrderHandler(IApplicationDbContext dbContext, ILogger<CreateOrderHandler> logger)
     : ICommandHandler<CreateOrderCommand, CreateOrderResult>
@@ -18,8 +20,9 @@ public class CreateOrderHandler(IApplicationDbContext dbContext, ILogger<CreateO
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error creating order");
-            return new CreateOrderResult(false, null, $"Error creating order: {ex.Message}");
+            var errorDetails = GenericExcepltionStringBuilder.BuildExceptionString(ex);
+            logger.LogError(errorDetails);
+            return new CreateOrderResult(false, null, ex.Message);
         }
     }
 
