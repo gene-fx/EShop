@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Messaging.Events;
+using BuildingBlocks.Messaging.Events.Responses;
 using MassTransit;
 using OrderingApplication.Orders.Commands.CreateOrder;
 using System.Text.Json;
@@ -14,7 +15,17 @@ public class BasketCheckoutEventHandler
 
         CreateOrderCommand createOrderCommand = MapToOrderCommand(context.Message);
 
-        await sender.Send(createOrderCommand);
+        CreateOrderResult response = await sender.Send(createOrderCommand);
+
+        BasketCheckoutResponse responseMessage = new BasketCheckoutResponse
+        {
+            Id = context.Message.Id,
+            IsSuccess = response.IsSuccess,
+            OrderId = response.Id ?? Guid.Empty,
+            ErrorMessage = response.ErrorMessage
+        };
+
+        await context.RespondAsync(responseMessage);
     }
 
     private CreateOrderCommand MapToOrderCommand(BasketCheckoutEvent basketCheckoutEvent)

@@ -4,10 +4,10 @@ namespace BasketAPI.Basket.CheckoutBasket;
 
 public record CheckoutBasketRequest(BasketCheckoutDto BasketCheckoutDto);
 
-public record CheckoutBasketResponse(bool IsSuccess);
+public record CheckoutBasketEndpointResponse(bool IsSuccess, Guid? OrederId, string? Error = null);
 
 public class CheckoutBasketEndpoint(ISender sender)
-    : Endpoint<CheckoutBasketRequest, CheckoutBasketResponse>
+    : Endpoint<CheckoutBasketRequest, CheckoutBasketEndpointResponse>
 {
     public override void Configure()
     {
@@ -17,8 +17,8 @@ public class CheckoutBasketEndpoint(ISender sender)
         {
             s.Summary = "Checkout Basket";
             s.Description = "Checkout Basket";
-            s.Response<CheckoutBasketResponse>(201, "Success");
-            s.Response(400, "Bad Request");
+            s.Response<CheckoutBasketEndpointResponse>(201, "Success");
+            s.Response<CheckoutBasketEndpointResponse>(500, "Internal Server Error");
         });
     }
 
@@ -26,11 +26,14 @@ public class CheckoutBasketEndpoint(ISender sender)
     {
         CheckoutBasketCommand command = new CheckoutBasketCommand(req.BasketCheckoutDto);
 
-        var result = await sender.Send(command, ct);
+        CheckoutBasketResult result = await sender.Send(command, ct);
 
-        var response = result.Adapt<CheckoutBasketResponse>();
+        CheckoutBasketEndpointResponse endpointResponse = result.Adapt<CheckoutBasketEndpointResponse>();
 
-        await Send.CreatedAtAsync(req.BasketCheckoutDto.UserName, response);
+        if (result.IsSuccess == false)
+            await Send.ResultAsync(TypedResults.InternalServerError(endpointResponse));
+        else
+            await Send.ResultAsync(TypedResults.Created(endpointResponse.OrederId.ToString(), endpointResponse));
     }
 
     //public void AddRoutes(IEndpointRouteBuilder app)

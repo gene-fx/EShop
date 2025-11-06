@@ -1,18 +1,26 @@
 ﻿namespace OrderingApplication.Orders.Commands.CreateOrder;
 
-public class CreateOrderHandler(IApplicationDbContext dbContext)
+public class CreateOrderHandler(IApplicationDbContext dbContext, ILogger<CreateOrderHandler> logger)
     : ICommandHandler<CreateOrderCommand, CreateOrderResult>
 {
     public async Task<CreateOrderResult> Handle
         (CreateOrderCommand command, CancellationToken cancellationToken)
     {
-        var order = CreateNewOrder(command.Order);
+        try
+        {
+            var order = CreateNewOrder(command.Order);
 
-        dbContext.Orders.Add(order);
+            dbContext.Orders.Add(order);
 
-        await dbContext.SaveChangesAsync(cancellationToken);
+            await dbContext.SaveChangesAsync(cancellationToken);
 
-        return new CreateOrderResult(order.Id.Value);
+            return new CreateOrderResult(true, order.Id.Value);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error creating order");
+            return new CreateOrderResult(false, null, $"Error creating order: {ex.Message}");
+        }
     }
 
     private Order CreateNewOrder(OrderDto orderDto)

@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Messaging.Events;
+using BuildingBlocks.Messaging.Events.Responses;
 using MassTransit;
 
 namespace BasketAPI.Basket.CheckoutBasket;
@@ -6,7 +7,7 @@ namespace BasketAPI.Basket.CheckoutBasket;
 public record CheckoutBasketCommand(BasketCheckoutDto BasketCheckout)
     : ICommand<CheckoutBasketResult>;
 
-public record CheckoutBasketResult(bool IsSuccess);
+public record CheckoutBasketResult(bool IsSuccess, Guid? OrderId, string? Error = null);
 
 //Validation
 public class CheckoutBasketCommandValidator
@@ -21,38 +22,30 @@ public class CheckoutBasketCommandValidator
     }
 }
 
-public class CheckoutBasketHandler(IBasketRepository repository, IPublishEndpoint publishEndpoint)
+public class CheckoutBasketHandler(IBasketRepository repository, IRequestClient<BasketCheckoutEvent> client)
     : ICommandHandler<CheckoutBasketCommand, CheckoutBasketResult>
 {
     public async Task<CheckoutBasketResult> Handle(CheckoutBasketCommand command, CancellationToken cancellationToken)
     {
         var basket = await repository.Get(command.BasketCheckout.UserName, cancellationToken);
 
-        if (basket == null) return new CheckoutBasketResult(false);
+        if (basket == null) return new CheckoutBasketResult(false, null, "Basket not found");
 
         var eventMessage = command.BasketCheckout.Adapt<BasketCheckoutEvent>();
 
         eventMessage.Items = command.BasketCheckout.Items.Select(item => item.Adapt<ShoppingCartItem>()).ToList();
-        //new List<ShoppingCartItem>();
-
-        //foreach (var item in basket.Items)
-        //{
-        //    eventMessage.Items.Append(new ShoppingCartItem
-        //    {
-        //        Color = item.Color,
-        //        Price = item.Price,
-        //        ProductId = item.ProductId,
-        //        ProductName = item.ProductName,
-        //        Quantity = item.Quantity
-        //    });
-        //}
 
         eventMessage.TotalPrice = basket.TotalPrice;
 
-        await publishEndpoint.Publish(eventMessage, cancellationToken);
+        var response = await client.GetResponse<BasketCheckoutResponse>(eventMessage, cancellationToken, TimeSpan.FromMinutes(2));
+
+        if (response.Message.IsSuccess == false)
+        {
+            return new CheckoutBasketResult(false, null, response.Message.ErrorMessage);
+        }
 
         await repository.Delete(command.BasketCheckout.UserName, cancellationToken);
 
-        return new CheckoutBasketResult(true);
+        return new CheckoutBasketResult(true, response.Message.OrderId);
     }
 }

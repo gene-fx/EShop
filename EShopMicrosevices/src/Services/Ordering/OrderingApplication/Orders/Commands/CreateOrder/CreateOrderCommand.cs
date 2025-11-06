@@ -3,7 +3,7 @@
 public record CreateOrderCommand(OrderDto Order)
     : ICommand<CreateOrderResult>;
 
-public record CreateOrderResult(Guid Id);
+public record CreateOrderResult(bool IsSuccess, Guid? Id, string? ErrorMessage = null);
 
 //Validations Class
 public class CreateOrderCommandValidator
