@@ -2,7 +2,7 @@
 
 namespace BasketAPI.Basket.CheckoutBasket;
 
-public record CheckoutBasketRequest(BasketCheckoutDto BasketCheckoutDto);
+public record CheckoutBasketRequest(BasketCheckoutDto BasketCheckout);
 
 public record CheckoutBasketEndpointResponse(bool IsSuccess, Guid? OrederId, string? Error = null);
 
@@ -24,7 +24,7 @@ public class CheckoutBasketEndpoint(ISender sender)
 
     public override async Task HandleAsync(CheckoutBasketRequest req, CancellationToken ct)
     {
-        CheckoutBasketCommand command = new CheckoutBasketCommand(req.BasketCheckoutDto);
+        CheckoutBasketCommand command = new CheckoutBasketCommand(req.BasketCheckout);
 
         CheckoutBasketResult result = await sender.Send(command, ct);
 
