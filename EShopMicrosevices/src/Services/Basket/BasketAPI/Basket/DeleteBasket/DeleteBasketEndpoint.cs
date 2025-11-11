@@ -22,9 +22,9 @@ public class DeleteBasketEndpoint(ISender sender)
         });
     }
 
-    public override async Task HandleAsync(DeleteBasketRequest req, CancellationToken ct)
+    public override async Task HandleAsync(DeleteBasketRequest userName, CancellationToken ct)
     {
-        var command = req.Adapt<DeleteBasketCommand>();
+        var command = userName.Adapt<DeleteBasketCommand>();
         var result = await sender.Send(command, ct);
         var response = result.Adapt<DeleteBasketResponse>();
         await Send.ResponseAsync(response, cancellation: ct);

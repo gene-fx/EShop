@@ -22,9 +22,9 @@ public class GetBasketEnpoint(ISender sender)
         });
     }
 
-    public override async Task HandleAsync(GetBasketRequest req, CancellationToken ct)
+    public override async Task HandleAsync(GetBasketRequest userName, CancellationToken ct)
     {
-        var query = req.Adapt<GetBasketQuery>();
+        var query = userName.Adapt<GetBasketQuery>();
         var result = await sender.Send(query, ct);
         var response = result.Adapt<GetBasketResponse>();
         await Send.ResponseAsync(response, cancellation: ct);
