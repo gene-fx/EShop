@@ -1,4 +1,5 @@
 using OrderingAPI;
+using OrderingAPI.FileWatcher;
 using OrderingApplication;
 using OrderingInfrastructure;
 using OrderingInfrastructure.Data.Extensions;
@@ -11,6 +12,8 @@ builder.Services
     .AddApplicationServices(builder.Configuration)
     .AddInfrastructureServices(builder.Configuration)
     .AddApiServices(builder.Configuration);
+
+builder.Services.AddHostedService<OrderingFileWatcher>();
 
 var app = builder.Build();
 

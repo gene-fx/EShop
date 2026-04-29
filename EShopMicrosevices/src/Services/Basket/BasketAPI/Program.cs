@@ -1,3 +1,4 @@
+using BasketAPI.FileWatcher;
 using BuildingBlocks.Messaging.MassTransit;
 using Discount.Grpc;
 using FastEndpoints;
@@ -70,6 +71,8 @@ builder.Services.AddCors(opt =>
               .AllowAnyHeader();
     });
 });
+
+builder.Services.AddHostedService<BasketFileWatcher>();
 
 var app = builder.Build();
 

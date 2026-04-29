@@ -1,3 +1,4 @@
+using CatalogAPI.FileWatcher;
 using HealthChecks.UI.Client;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +28,8 @@ builder.Services.AddProblemDetails();
 
 builder.Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionString("Postgresql")!);
+
+builder.Services.AddHostedService<CatalogFileWatcher>();
 
 var app = builder.Build();
 //Configure HTTP request pipeline

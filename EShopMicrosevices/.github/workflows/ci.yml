@@ -1,0 +1,78 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore EShopMicrosevices.sln
+
+      - name: Build (Release)
+        run: dotnet build EShopMicrosevices.sln --configuration Release --no-restore
+
+      - name: Test – Catalog
+        run: |
+          dotnet test src/Services/Catalog/Catalog.Tests/Catalog.Tests.csproj \
+            --configuration Release \
+            --no-build \
+            --logger "trx;LogFileName=catalog-results.trx" \
+            --collect:"XPlat Code Coverage" \
+            --results-directory ./TestResults
+
+      - name: Test – Basket
+        run: |
+          dotnet test src/Services/Basket/Basket.Tests/Basket.Tests.csproj \
+            --configuration Release \
+            --no-build \
+            --logger "trx;LogFileName=basket-results.trx" \
+            --collect:"XPlat Code Coverage" \
+            --results-directory ./TestResults
+
+      - name: Test – Ordering
+        run: |
+          dotnet test src/Services/Ordering/Ordering.Tests/Ordering.Tests.csproj \
+            --configuration Release \
+            --no-build \
+            --logger "trx;LogFileName=ordering-results.trx" \
+            --collect:"XPlat Code Coverage" \
+            --results-directory ./TestResults
+
+      - name: Test – API Gateway
+        run: |
+          dotnet test src/ApiGateways/YarpApiGateway.Tests/YarpApiGateway.Tests.csproj \
+            --configuration Release \
+            --no-build \
+            --logger "trx;LogFileName=gateway-results.trx" \
+            --collect:"XPlat Code Coverage" \
+            --results-directory ./TestResults
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: ./TestResults/**/*.trx
+
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v4
+        if: always()
+        with:
+          directory: ./TestResults
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
